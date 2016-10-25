@@ -1,6 +1,6 @@
 package main;
 
-import dataStructures.binomialHeap.BinomialHeapWrapper;
+import dataStructures.binaryHeap.BinaryHeapWrapper;
 import dataStructures.fibonacciHeap.FibonacciHeapWrapper;
 import dataStructures.interfaces.Heap;
 import graph.Graph;
@@ -41,7 +41,7 @@ public class Main {
                 return new FibonacciHeapWrapper(size);
             }
             case "b":case "binomial": {
-                return new BinomialHeapWrapper(size);
+                return new BinaryHeapWrapper(size);
             }
             default: {
                 throw new IllegalArgumentException("Invalid heap type flag: " + heapTypeFlag);

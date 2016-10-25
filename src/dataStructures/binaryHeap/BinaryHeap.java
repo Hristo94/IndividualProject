@@ -1,19 +1,17 @@
-package dataStructures.binomialHeap;
-
-import java.util.Random;
+package dataStructures.binaryHeap;
 
 /**
  * Created by hristo on 12/10/16.
  */
-public class BinomialHeap<T extends Comparable<T>> {
+public class BinaryHeap<T extends Comparable<T>> {
 
-    private BinomialHeapNode<T> heap[]; // contains the objects in the heap
+    private BinaryHeapNode<T> heap[]; // contains the objects in the heap
     private int last; // index of last element in heap
     private int capacity; // max number of elements in heap
 
-    public BinomialHeap(int n) {
+    public BinaryHeap(int n) {
         capacity = n;
-        heap = new BinomialHeapNode[capacity + 1];
+        heap = new BinaryHeapNode[capacity + 1];
         last = 0;
     }
 
@@ -21,17 +19,17 @@ public class BinomialHeap<T extends Comparable<T>> {
         return last == 0;
     }
 
-    public BinomialHeapNode<T> insert(T t) {
-        BinomialHeapNode<T> binomialHeapNode = new BinomialHeapNode<>(last + 1, t);
-        heap[last + 1] = binomialHeapNode;
+    public BinaryHeapNode<T> insert(T t) {
+        BinaryHeapNode<T> binaryHeapNode = new BinaryHeapNode<>(last + 1, t);
+        heap[last + 1] = binaryHeapNode;
         last++;
 
         upHeap();
-        return binomialHeapNode;
+        return binaryHeapNode;
     }
 
-    public void upHeap(BinomialHeapNode<T> binomialHeapNode) {
-        upHeap(binomialHeapNode.getArrayIndex());
+    public void upHeap(BinaryHeapNode<T> binaryHeapNode) {
+        upHeap(binaryHeapNode.getArrayIndex());
     }
 
     private void upHeap(int index) {
@@ -48,9 +46,9 @@ public class BinomialHeap<T extends Comparable<T>> {
         upHeap(last);
     }
 
-    public BinomialHeapNode<T> removeMin() {
+    public BinaryHeapNode<T> removeMin() {
 
-        BinomialHeapNode<T> min = heap[1];
+        BinaryHeapNode<T> min = heap[1];
         heap[1] = heap[last];
         last --;
 
@@ -72,7 +70,7 @@ public class BinomialHeap<T extends Comparable<T>> {
 
 
     private void swap(int index, int parent) {
-        BinomialHeapNode<T> temp = heap[index];
+        BinaryHeapNode<T> temp = heap[index];
         heap[index] = heap[parent];
         heap[index].setArrayIndex(parent);
         heap[parent] = temp;
@@ -104,11 +102,11 @@ public class BinomialHeap<T extends Comparable<T>> {
         return i / 2;
     }
 
-    private BinomialHeapNode<T> leftChild(int i) {
+    private BinaryHeapNode<T> leftChild(int i) {
         return heap[i * 2];
     }
 
-    private BinomialHeapNode<T> rightChild(int i) {
+    private BinaryHeapNode<T> rightChild(int i) {
         return heap[i * 2 + 1];
     }
 }

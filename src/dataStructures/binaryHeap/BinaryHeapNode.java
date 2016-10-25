@@ -1,14 +1,14 @@
-package dataStructures.binomialHeap;
+package dataStructures.binaryHeap;
 
 /**
  * Created by hristo on 12/10/16.
  */
-public class BinomialHeapNode<T extends Comparable<T>> implements Comparable<BinomialHeapNode<T>>{
+public class BinaryHeapNode<T extends Comparable<T>> implements Comparable<BinaryHeapNode<T>>{
 
     private int arrayIndex;
     private T data;
 
-    public BinomialHeapNode(int arrayIndex, T data) {
+    public BinaryHeapNode(int arrayIndex, T data) {
         this.arrayIndex = arrayIndex;
         this.data = data;
     }
@@ -26,7 +26,7 @@ public class BinomialHeapNode<T extends Comparable<T>> implements Comparable<Bin
     }
 
     @Override
-    public int compareTo(BinomialHeapNode<T> heapNode) {
+    public int compareTo(BinaryHeapNode<T> heapNode) {
         return data.compareTo(heapNode.getData());
     }
 }
