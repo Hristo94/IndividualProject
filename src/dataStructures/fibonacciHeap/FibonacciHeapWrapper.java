@@ -10,7 +10,6 @@ public class FibonacciHeapWrapper implements Heap<Vertex> {
     FibonacciHeapNode<Vertex>[] fibonacciHeapNodes;
     FibonacciHeap<Vertex> fibonacciHeap;
 
-    public long total = 0;
     public FibonacciHeapWrapper(int n) {
         fibonacciHeapNodes = new FibonacciHeapNode[n];
         fibonacciHeap = new FibonacciHeap<>();
@@ -18,10 +17,7 @@ public class FibonacciHeapWrapper implements Heap<Vertex> {
 
     @Override
     public Vertex removeMin() {
-        long start = System.currentTimeMillis();
         Vertex v =  fibonacciHeap.removeMin().getData();
-        long end = System.currentTimeMillis();
-        total += end - start;
         return v;
     }
 

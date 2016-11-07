@@ -1,6 +1,9 @@
 package graph;
 
 import dataStructures.interfaces.Heap;
+import main.Utils;
+
+import java.util.*;
 
 /**
  class to represent an undirected graph using adjacency lists
@@ -13,6 +16,35 @@ public class Graph {
         for (int i = 0; i < n; i++) {
             vertices[i] = new Vertex(i + 1);
         }
+    }
+
+    public static Graph generateRandomGraph(int numVertices, int numEdges, int maxDistance) {
+        Graph graph = new Graph(numVertices);
+        Random random = new Random();
+
+        int numEdgesPerVertex = numEdges / numVertices;
+
+        int[] adjacentVertices = new int[numVertices];
+        for (int i = 0; i < numVertices; i++) {
+            adjacentVertices[i] = i + 1;
+        }
+
+        for(int i = 1; i <= numVertices; i++) {
+            if(i% 1000 == 0) {
+                System.out.println(i);
+            }
+            Utils.shuffleArray(adjacentVertices);
+            Vertex v = graph.getVertex(i);
+
+            for(int j = 0; j < numEdgesPerVertex; j++) {
+                int adjacentVertexNum = adjacentVertices[j];
+                if(adjacentVertexNum != i) {
+                    v.addToAdjList(adjacentVertexNum, random.nextInt(maxDistance) + 1);
+                }
+            }
+        }
+
+        return graph;
     }
 
     public int size() {
@@ -28,11 +60,15 @@ public class Graph {
         u.setDistance(0);
         heap.insert(u);
 
+        int i = 0;
         while(!heap.isEmpty()){
+            i++;
+            if(i % 1000000 == 0) {
+                System.out.println(i);
+            }
             // find v not in S with d(v) minimum;
             Vertex v = heap.removeMin();
             v.setProcessed(true); // shortest path to 'v' is already known
-
             // perform restoreHeapProperty for each vertex 'w' adjacent to 'v'
             for(AdjListNode node: v.getAdjList()){
                 Vertex w = getVertex(node.getVertexNumber());

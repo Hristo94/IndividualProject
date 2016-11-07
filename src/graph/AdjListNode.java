@@ -4,7 +4,7 @@ package graph;
  class to represent an entry in the adjacency list of a vertex
  in a graph
  */
-public class AdjListNode {
+public class AdjListNode{
 
     private int vertexNumber;
     private int weight;
@@ -21,5 +21,12 @@ public class AdjListNode {
 
     public int getWeight() {
         return weight;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        AdjListNode adjListNode = (AdjListNode) object;
+
+        return vertexNumber == adjListNode.getVertexNumber();
     }
 }

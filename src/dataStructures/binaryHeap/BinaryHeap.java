@@ -72,9 +72,9 @@ public class BinaryHeap<T extends Comparable<T>> {
     private void swap(int index, int parent) {
         BinaryHeapNode<T> temp = heap[index];
         heap[index] = heap[parent];
-        heap[index].setArrayIndex(parent);
+        heap[index].setArrayIndex(index);
         heap[parent] = temp;
-        heap[parent].setArrayIndex(temp.getArrayIndex());
+        heap[parent].setArrayIndex(parent);
     }
 
     private int smallerChild (int i) {
