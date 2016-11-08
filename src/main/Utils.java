@@ -88,9 +88,9 @@ public class Utils {
         }
     }
 
-    public static void generateRandomGraph(int numVertices, int numEdges, int maxDistance) {
+    public static void generateRandomGraph(int numVertices, int numEdges, int maxDistance, String fileName) {
         Graph graph = Graph.generateRandomGraph(numVertices, numEdges, maxDistance);
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("myFile.txt"), StandardCharsets.UTF_8))) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
             writer.write(graph.size() + "\n");
             for(int i = 1; i <= graph.size(); i++) {
                 Vertex v = graph.getVertex(i);

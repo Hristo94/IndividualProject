@@ -8,6 +8,6 @@ public class Main {
     public static void main(String[] args)  {
         UserInterface.init();
 
-//        Utils.generateRandomGraph(10000,100000,50000);
+//       Utils.generateRandomGraph(10000,100000,50000, "10000-100000.txt");
     }
 }

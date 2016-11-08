@@ -5,79 +5,74 @@ import java.util.EmptyStackException;
 public class PairingHeap<T extends Comparable<T>>
 {
     private PairingHeapNode<T> root;
-    private int theSize;
     // The tree array for combineSiblings
     private PairingHeapNode<T>[ ] treeArray = new PairingHeapNode[ 5 ];
 
-    public PairingHeap( )
-    {
+    public PairingHeap( ) {
         root = null;
-        theSize = 0;
     }
 
-    public PairingHeapNode<T> insert(T x )
-    {
-        PairingHeapNode newNode = new PairingHeapNode<>( x );
+    public PairingHeapNode<T> insert(T element ) {
+        PairingHeapNode node = new PairingHeapNode<>(element);
 
         if( root == null )
-            root = newNode;
+            root = node;
         else
-            root = compareAndLink( root, newNode );
-
-        theSize++;
-        return newNode;
+            root = compareAndLink( root, node );
+        return node;
     }
 
 
-    public T findMin( )
-    {
-        if( isEmpty( ) )
+    public T findMin() {
+        if(isEmpty()) {
             throw new EmptyStackException();
+        }
         return root.element;
     }
 
 
-    public T deleteMin( )
-    {
-        if( isEmpty( ) )
+    public T deleteMin( ) {
+        if(isEmpty()) {
             throw new EmptyStackException();
+        }
 
-        T x = findMin( );
-        if( root.leftChild == null )
+        T minElement = findMin();
+        if(root.leftChild == null) {
             root = null;
-        else
-            root = combineSiblings( root.leftChild );
-
-        theSize--;
-        return x;
+        }
+        else {
+            root = combineSiblings(root.leftChild);
+        }
+        return minElement;
     }
 
 
-    public void decreaseKey(PairingHeapNode p, T newVal )
-    {
-        if( p == null )
-            throw new IllegalArgumentException( "null Position passed to decreaseKey" );
+    public void decreaseKey(PairingHeapNode p, T newElement ) {
+        if(p == null) {
+            throw new IllegalArgumentException("null passed to decreaseKey");
+        }
 
+        if( p.element.compareTo(newElement) < 0 ) {
+            throw new IllegalArgumentException("new element is bigger than old element");
+        }
 
-        if( p.element.compareTo( newVal ) < 0 )
-            throw new IllegalArgumentException( "newVal/oldval: " + newVal + " /" + p.element );
-        p.element = newVal;
-        if( p != root )
-        {
-            if( p.nextSibling != null )
+        p.element = newElement;
+        if(p != root) {
+            if(p.nextSibling != null) {
                 p.nextSibling.prev = p.prev;
-            if( p.prev.leftChild == p )
+            }
+            if(p.prev.leftChild == p) {
                 p.prev.leftChild = p.nextSibling;
-            else
+            }
+            else {
                 p.prev.nextSibling = p.nextSibling;
-
+            }
             p.nextSibling = null;
             root = compareAndLink( root, p );
         }
     }
 
-    public boolean isEmpty( )
-    {
+    public boolean isEmpty() {
         return root == null;
     }
 
@@ -92,8 +87,9 @@ public class PairingHeap<T extends Comparable<T>>
             second.prev = first.prev;
             first.prev = second;
             first.nextSibling = second.leftChild;
-            if( first.nextSibling != null )
+            if(first.nextSibling != null) {
                 first.nextSibling.prev = first;
+            }
             second.leftChild = first;
             return second;
         }
@@ -102,38 +98,39 @@ public class PairingHeap<T extends Comparable<T>>
             // Attach second as leftmost child of first
             second.prev = first;
             first.nextSibling = second.nextSibling;
-            if( first.nextSibling != null )
+            if(first.nextSibling != null) {
                 first.nextSibling.prev = first;
+            }
             second.nextSibling = first.leftChild;
-            if( second.nextSibling != null )
+            if(second.nextSibling != null) {
                 second.nextSibling.prev = second;
+            }
             first.leftChild = second;
             return first;
         }
     }
 
-    private PairingHeapNode<T>[ ] doubleIfFull(PairingHeapNode<T>[ ] array, int index )
+    private PairingHeapNode<T>[] doubleIfFull(PairingHeapNode<T>[] array, int index )
     {
-        if( index == array.length )
-        {
-            PairingHeapNode[ ] oldArray = array;
+        if(index == array.length) {
+            PairingHeapNode[] oldArray = array;
 
             array = new PairingHeapNode[ index * 2 ];
-            for( int i = 0; i < index; i++ )
-                array[ i ] = oldArray[ i ];
+            for(int i = 0; i < index; i++) {
+                array[i] = oldArray[i];
+            }
         }
         return array;
     }
 
     private PairingHeapNode<T> combineSiblings(PairingHeapNode<T> firstSibling )
     {
-        if( firstSibling.nextSibling == null )
+        if(firstSibling.nextSibling == null) {
             return firstSibling;
-
+        }
         // Store the subtrees in an array
         int numSiblings = 0;
-        for( ; firstSibling != null; numSiblings++ )
-        {
+        for( ; firstSibling != null; numSiblings++ ) {
             treeArray = doubleIfFull( treeArray, numSiblings );
             treeArray[ numSiblings ] = firstSibling;
             firstSibling.prev.nextSibling = null;  // break links
