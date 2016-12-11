@@ -1,6 +1,7 @@
 package main;
 
 import dataStructures.binaryHeap.BinaryHeapWrapper;
+import dataStructures.fibonacciHeap2.FibonacciHeapWrapper2;
 import graph.Graph;
 
 public class Main {
@@ -12,10 +13,11 @@ public class Main {
         //UserInterface.init();
 
 
-        Graph graph = Graph.generateRandomGraph(5000000,150000000,5000000);
+        Graph graph = Graph.generateRandomGraph(100000000,10000000000l,5000000);
         System.out.println("Graph generated");
         long start = System.currentTimeMillis();
         graph.findShortestPath(5, new BinaryHeapWrapper(graph.size()));
+        //graph.findShortestPath(5, new FibonacciHeapWrapper2(graph.size()));
         long end = System.currentTimeMillis();
         System.out.println(Utils.produceOutput(graph, 5, 55, end - start));
 

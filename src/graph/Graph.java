@@ -18,11 +18,11 @@ public class Graph {
         }
     }
 
-    public static Graph generateRandomGraph(int numVertices, int numEdges, int maxDistance) {
+    public static Graph generateRandomGraph(int numVertices, long numEdges, int maxDistance) {
         Graph graph = new Graph(numVertices);
         Random random = new Random();
 
-        int numEdgesPerVertex = numEdges / numVertices;
+        int numEdgesPerVertex = (int) numEdges / numVertices;
 
         int[] adjacentVertices = new int[numVertices];
         for(int i = 0; i < numVertices; i++) {
@@ -42,15 +42,20 @@ public class Graph {
                 int randIndex = random.nextInt(maxIndex + 1);
 
                 int w = adjacentVertices[randIndex];
+
                 if(v.getIndex() != w) {
-                    int temp = adjacentVertices[maxIndex];
-                    adjacentVertices[maxIndex] = adjacentVertices[randIndex];
-                    adjacentVertices[randIndex] = temp;
 
                     v.addToAdjList(w, random.nextInt(maxDistance) + 1);
+
                     edges++;
+                    maxIndex--;
                 }
+
+                int temp = adjacentVertices[maxIndex];
+                adjacentVertices[maxIndex] = adjacentVertices[randIndex];
+                adjacentVertices[randIndex] = temp;
             }
+
         }
 
         return graph;
