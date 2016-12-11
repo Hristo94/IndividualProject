@@ -37,16 +37,16 @@ public class Utils {
     public static Graph createGraphFrom(String inputFileName) throws IOException {
         BufferedReader in = new BufferedReader(new FileReader(inputFileName));
         Graph graph = new Graph(Integer.parseInt(in.readLine()));
-
-        // process the file with multiple threads
-        in.lines().parallel().forEach(line -> {
-            String[] lineElements = line.split(" ");
-            int vertexIndex = Integer.parseInt(lineElements[0]);
-            int adjacentVertexIndex = Integer.parseInt(lineElements[1]);
-            int weight = Integer.parseInt(lineElements[2]);
-            Vertex v = graph.getVertex(vertexIndex);
-            v.addToAdjList(adjacentVertexIndex, weight);
-        });
+//
+//        // process the file with multiple threads
+//        in.lines().parallel().forEach(line -> {
+//            String[] lineElements = line.split(" ");
+//            int vertexIndex = Integer.parseInt(lineElements[0]);
+//            int adjacentVertexIndex = Integer.parseInt(lineElements[1]);
+//            int weight = Integer.parseInt(lineElements[2]);
+//            Vertex v = graph.getVertex(vertexIndex);
+//            v.addToAdjList(adjacentVertexIndex, weight);
+//        });
 
         return graph;
     }
@@ -75,33 +75,22 @@ public class Utils {
         return  output;
     }
 
-    public static void shuffleArray(int[] array)
-    {
-        int index, temp;
-        Random random = new Random();
-        for (int i = array.length - 1; i > 0; i--)
-        {
-            index = random.nextInt(i + 1);
-            temp = array[index];
-            array[index] = array[i];
-            array[i] = temp;
-        }
-    }
-
-    public static void generateRandomGraph(int numVertices, int numEdges, int maxDistance, String fileName) {
-        Graph graph = Graph.generateRandomGraph(numVertices, numEdges, maxDistance);
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
-            writer.write(graph.size() + "\n");
-            for(int i = 1; i <= graph.size(); i++) {
-                Vertex v = graph.getVertex(i);
-                for(AdjListNode adjListNode: v.getAdjList()) {
-                    writer.write(v.getIndex() + " " + adjListNode.getVertexNumber() + " " + adjListNode.getWeight() + "\n");
-                }
-            }
-        } catch (IOException ex) {
-            // handle me
-        }
-        System.out.println("completed");
-    }
+//    public static void generateRandomGraph(int numVertices, int numEdges, int maxDistance, String fileName) {
+//        try {
+//            Graph graph = Graph.generateRandomGraph(numVertices, numEdges, maxDistance);
+//            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8));
+//            writer.write(graph.size() + "\n");
+//            for(int i = 1; i <= graph.size(); i++) {
+//                Vertex v = graph.getVertex(i);
+//                for(AdjListNode adjListNode: v.getAdjList()) {
+//                    writer.write(v.getIndex() + " " + adjListNode.getVertexNumber() + " " + adjListNode.getWeight() + "\n");
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println("completed");
+//    }
 
 }
