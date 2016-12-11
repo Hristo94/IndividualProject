@@ -35,7 +35,6 @@ public class Graph {
             }
 
             Vertex v = graph.getVertex(i);
-
             int maxIndex = adjacentVertices.length - 1;
             int edges = 0;
 
