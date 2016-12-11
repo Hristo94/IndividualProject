@@ -1,8 +1,4 @@
 package dataStructures.fibonacciHeap;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class FibonacciHeap<T>
 {
     private static final double ONEOVERLOGPHI = 1.0 / Math.log((1.0 + Math.sqrt(5.0)) / 2.0);
@@ -132,12 +128,7 @@ public class FibonacciHeap<T>
     {
         int arraySize = ((int) Math.floor(Math.log(numNodes) * ONEOVERLOGPHI)) + 1;
 
-        List<FibonacciHeapNode<T>> array = new ArrayList<>(arraySize);
-
-        // Initialize degree array
-        for (int i = 0; i < arraySize; i++) {
-            array.add(null);
-        }
+        FibonacciHeapNode<T>[] array = new FibonacciHeapNode[arraySize];
 
         // Find the number of root nodes.
         int numRoots = 0;
@@ -161,7 +152,7 @@ public class FibonacciHeap<T>
 
             // ..and see if there's another of the same degree.
             for (;;) {
-                FibonacciHeapNode<T> y = array.get(d);
+                FibonacciHeapNode<T> y = array[d];
                 if (y == null) {
                     // Nope.
                     break;
@@ -175,17 +166,17 @@ public class FibonacciHeap<T>
                     x = temp;
                 }
 
-                // FibonacciHeapNode<T> y disappears from root list.
+                // FibonacciHeapNode2<T> y disappears from root list.
                 link(y, x);
 
                 // We've handled this degree, go to next one.
-                array.set(d, null);
+                array[d] = null;
                 d++;
             }
 
             // Save this node for later when we might encounter another
             // of the same degree.
-            array.set(d, x);
+            array[d] = x;
 
             // Move forward through list.
             x = next;
@@ -197,7 +188,7 @@ public class FibonacciHeap<T>
         minNode = null;
 
         for (int i = 0; i < arraySize; i++) {
-            FibonacciHeapNode<T> y = array.get(i);
+            FibonacciHeapNode<T> y = array[i];
             if (y == null) {
                 continue;
             }

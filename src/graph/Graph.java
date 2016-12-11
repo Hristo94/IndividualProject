@@ -25,21 +25,31 @@ public class Graph {
         int numEdgesPerVertex = numEdges / numVertices;
 
         int[] adjacentVertices = new int[numVertices];
-        for (int i = 0; i < numVertices; i++) {
+        for(int i = 0; i < numVertices; i++) {
             adjacentVertices[i] = i + 1;
         }
 
-        for(int i = 1; i <= numVertices; i++) {
-            if(i% 1000 == 0) {
+        for (int i = 1; i <= numVertices; i++) {
+            if(i% 10000 == 0) {
                 System.out.println(i);
             }
-            Utils.shuffleArray(adjacentVertices);
+
             Vertex v = graph.getVertex(i);
 
-            for(int j = 0; j < numEdgesPerVertex; j++) {
-                int adjacentVertexNum = adjacentVertices[j];
-                if(adjacentVertexNum != i) {
-                    v.addToAdjList(adjacentVertexNum, random.nextInt(maxDistance) + 1);
+            int maxIndex = adjacentVertices.length - 1;
+            int edges = 0;
+
+            while(edges < numEdgesPerVertex) {
+                int randIndex = random.nextInt(maxIndex + 1);
+
+                int w = adjacentVertices[randIndex];
+                if(v.getIndex() != w) {
+                    int temp = adjacentVertices[maxIndex];
+                    adjacentVertices[maxIndex] = adjacentVertices[randIndex];
+                    adjacentVertices[randIndex] = temp;
+
+                    v.addToAdjList(w, random.nextInt(maxDistance) + 1);
+                    edges++;
                 }
             }
         }
