@@ -35,11 +35,7 @@ public class FibonacciHeapWrapper2 implements Heap<Vertex> {
     @Override
     public void restoreHeapProperty(Vertex vertex) {
         FibonacciHeapNode2<Vertex> fibonacciHeapNode = fibonacciHeapNodes[vertex.getIndex() - 1];
-        if(fibonacciHeapNode == null) {
-            insert(vertex);
-        }
-        else {
-            fibonacciHeap.decreaseKey(fibonacciHeapNode, vertex.getDistance());
-        }
+        fibonacciHeap.decreaseKey(fibonacciHeapNode, vertex.getDistance());
+
     }
 }

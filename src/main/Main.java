@@ -16,15 +16,21 @@ public class Main {
         //UserInterface.init();
 
 
-        Graph graph = Graph.generateRandomGraph(10000,1000000,5000000);
+        Graph graph = Graph.generateRandomGraph(Integer.parseInt(args[0]),Long.parseLong(args[1]),5000000);
         System.out.println("Graph generated");
         long start = System.currentTimeMillis();
-        graph.findShortestPath(5, new BinaryHeapWrapper(graph.size()));
+        if(args[2].equals("b")) {
+            graph.findShortestPath(5, new BinaryHeapWrapper(graph.size()));
+        }
+        else {
+            graph.findShortestPath(5, new FibonacciHeapWrapper2(graph.size()));
+        }
+        //graph.findShortestPath(5, new BinaryHeapWrapper(graph.size()));
         //graph.findShortestPath(5, new FibonacciHeapWrapper2(graph.size()));
         long end = System.currentTimeMillis();
-        String fileName = "output.txt";
+        //String fileName = "binary-100,000,000v-1,000,000,000e.txt";
         try {
-            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8));
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(args[3]), StandardCharsets.UTF_8));
             String output = Utils.produceOutput(graph,5,55, end - start) + '\n';
             writer.write(output);
             writer.close();
@@ -45,4 +51,5 @@ public class Main {
 //            e.printStackTrace();
 //        }
     }
+
 }

@@ -34,11 +34,6 @@ public class BinaryHeapWrapper implements Heap<Vertex> {
     @Override
     public void restoreHeapProperty(Vertex vertex) {
         BinaryHeapNode<Vertex> binaryHeapNode = binaryHeapNodes[vertex.getIndex() - 1];
-        if(binaryHeapNode == null) {
-            insert(vertex);
-        }
-        else {
-            binaryHeap.upHeap(binaryHeapNode);
-        }
+        binaryHeap.upHeap(binaryHeapNode);
     }
 }

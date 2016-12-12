@@ -23,7 +23,6 @@ public class Graph {
         Random random = new Random();
 
         int numEdgesPerVertex = (int) (numEdges / numVertices);
-        System.out.println("num edges per vertex: " + numEdgesPerVertex);
         int[] adjacentVertices = new int[numVertices];
         for(int i = 0; i < numVertices; i++) {
             adjacentVertices[i] = i + 1;
@@ -70,9 +69,14 @@ public class Graph {
     }
 
     public void findShortestPath(int startVertex, Heap<Vertex> heap) {
-        Vertex u = getVertex(startVertex);
-        u.setDistance(0);
-        heap.insert(u);
+        //initialization
+        for(int i = 1; i <= vertices.length; i++) {
+            Vertex u = getVertex(i);
+            if(u.getIndex() == startVertex) {
+                u.setDistance(0);
+            }
+            heap.insert(u);
+        }
 
         int i = 0;
         while(!heap.isEmpty()){
