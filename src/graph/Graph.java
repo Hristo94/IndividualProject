@@ -22,8 +22,8 @@ public class Graph {
         Graph graph = new Graph(numVertices);
         Random random = new Random();
 
-        int numEdgesPerVertex = (int) numEdges / numVertices;
-
+        int numEdgesPerVertex = (int) (numEdges / numVertices);
+        System.out.println("num edges per vertex: " + numEdgesPerVertex);
         int[] adjacentVertices = new int[numVertices];
         for(int i = 0; i < numVertices; i++) {
             adjacentVertices[i] = i + 1;
