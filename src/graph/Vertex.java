@@ -1,5 +1,7 @@
 package graph;
 
+import dataStructures.pairingHeap.PairingHeap;
+
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -13,6 +15,7 @@ public class Vertex implements Comparable<Vertex>{
     private int predecessor;
     private int distance;
     private boolean processed;
+    private boolean inserted;
 
     public Vertex(int n) {
         /**
@@ -24,6 +27,7 @@ public class Vertex implements Comparable<Vertex>{
         distance = Integer.MAX_VALUE;
         predecessor = n;
         processed = false;
+        inserted = false;
     }
 
     public Queue<AdjListNode> getAdjList(){
@@ -54,7 +58,7 @@ public class Vertex implements Comparable<Vertex>{
         this.distance = distance;
     }
 
-    public boolean getProcessed() {
+    public boolean isProcessed() {
         return processed;
     }
 
@@ -62,8 +66,30 @@ public class Vertex implements Comparable<Vertex>{
         this.processed = processed;
     }
 
+    public boolean isInserted() {
+        return inserted;
+    }
+
+    public void setInserted(boolean inserted) {
+        this.inserted = inserted;
+    }
+
     @Override
     public int compareTo(Vertex v) {
-        return this.getDistance() - v.getDistance();
+        int compare = this.distance - v.distance;
+        if(compare != 0) {
+            return compare;
+        }
+        return this.index - v.index;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return index == ((Vertex) o).index;
+    }
+
+    @Override
+    public int hashCode(){
+        return index;
     }
 }

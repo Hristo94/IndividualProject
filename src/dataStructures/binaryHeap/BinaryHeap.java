@@ -15,6 +15,9 @@ public class BinaryHeap<T extends Comparable<T>> {
         last = 0;
     }
 
+    public int size() {
+        return last;
+    }
     public boolean isEmpty() {
         return last == 0;
     }

@@ -10,6 +10,7 @@ public class FibonacciHeapWrapper2 implements Heap<Vertex> {
 
     private FibonacciHeap2<Vertex> fibonacciHeap;
     private FibonacciHeapNode2<Vertex>[] fibonacciHeapNodes;
+    public long time;
 
     public FibonacciHeapWrapper2(int n) {
         fibonacciHeapNodes = new FibonacciHeapNode2[n];
@@ -17,7 +18,8 @@ public class FibonacciHeapWrapper2 implements Heap<Vertex> {
     }
     @Override
     public Vertex removeMin() {
-        return fibonacciHeap.removeMin().getData();
+        Vertex data = fibonacciHeap.removeMin().getData();
+        return data;
     }
 
     @Override
@@ -33,9 +35,9 @@ public class FibonacciHeapWrapper2 implements Heap<Vertex> {
     }
 
     @Override
-    public void restoreHeapProperty(Vertex vertex) {
+    public void decreaseKey(Vertex vertex, int newDistance) {
+        vertex.setDistance(newDistance);
         FibonacciHeapNode2<Vertex> fibonacciHeapNode = fibonacciHeapNodes[vertex.getIndex() - 1];
         fibonacciHeap.decreaseKey(fibonacciHeapNode, vertex.getDistance());
-
     }
 }

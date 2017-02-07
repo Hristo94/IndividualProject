@@ -12,11 +12,6 @@ public class FibonacciHeap2<T> {
         return minNode == null;
     }
 
-    public void clear() {
-        minNode = null;
-        nNodes = 0;
-    }
-
     public void decreaseKey(FibonacciHeapNode2<T> x, double k) {
 
         if (k > x.key) {

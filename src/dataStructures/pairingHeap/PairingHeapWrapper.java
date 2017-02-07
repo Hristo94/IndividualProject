@@ -31,7 +31,8 @@ public class PairingHeapWrapper implements Heap<Vertex> {
     }
 
     @Override
-    public void restoreHeapProperty(Vertex vertex) {
+    public void decreaseKey(Vertex vertex, int newDistance) {
+        vertex.setDistance(newDistance);
         if(pairingHeapNodes[vertex.getIndex() - 1] == null) {
             insert(vertex);
         }

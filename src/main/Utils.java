@@ -37,16 +37,16 @@ public class Utils {
     public static Graph createGraphFrom(String inputFileName) throws IOException {
         BufferedReader in = new BufferedReader(new FileReader(inputFileName));
         Graph graph = new Graph(Integer.parseInt(in.readLine()));
-//
-//        // process the file with multiple threads
-//        in.lines().parallel().forEach(line -> {
-//            String[] lineElements = line.split(" ");
-//            int vertexIndex = Integer.parseInt(lineElements[0]);
-//            int adjacentVertexIndex = Integer.parseInt(lineElements[1]);
-//            int weight = Integer.parseInt(lineElements[2]);
-//            Vertex v = graph.getVertex(vertexIndex);
-//            v.addToAdjList(adjacentVertexIndex, weight);
-//        });
+
+        // process the file with multiple threads
+        in.lines().forEach(line -> {
+            String[] lineElements = line.split(" ");
+            int vertexIndex = Integer.parseInt(lineElements[0]);
+            int adjacentVertexIndex = Integer.parseInt(lineElements[1]);
+            int weight = Integer.parseInt(lineElements[2]);
+            Vertex v = graph.getVertex(vertexIndex);
+            v.addToAdjList(adjacentVertexIndex, weight);
+        });
 
         return graph;
     }

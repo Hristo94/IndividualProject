@@ -11,5 +11,5 @@ public interface Heap<V> {
 
     void insert(V vertex);
 
-    void restoreHeapProperty(V v);
+    void decreaseKey(V v, int newKey);
 }

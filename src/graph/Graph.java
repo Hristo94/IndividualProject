@@ -1,7 +1,6 @@
 package graph;
 
 import dataStructures.interfaces.Heap;
-import main.Utils;
 
 import java.util.*;
 
@@ -23,19 +22,26 @@ public class Graph {
         Random random = new Random();
 
         int numEdgesPerVertex = (int) (numEdges / numVertices);
+        int numEdgesPerVertexRemainder = (int) numEdges % numVertices;
+
         int[] adjacentVertices = new int[numVertices];
         for(int i = 0; i < numVertices; i++) {
             adjacentVertices[i] = i + 1;
         }
-
+        int totalEdges = 0;
         for (int i = 1; i <= numVertices; i++) {
-            if(i% 10000 == 0) {
+            if(i% 1000000 == 0) {
                 System.out.println(i);
             }
 
             Vertex v = graph.getVertex(i);
             int maxIndex = adjacentVertices.length - 1;
+
             int edges = 0;
+            if(numEdgesPerVertexRemainder > 0) {
+                edges--;
+                numEdgesPerVertexRemainder--;
+            }
 
             while(edges < numEdgesPerVertex) {
                 int randIndex = random.nextInt(maxIndex + 1);
@@ -46,6 +52,7 @@ public class Graph {
 
                     v.addToAdjList(w, random.nextInt(maxDistance) + 1);
 
+                    totalEdges++;
                     edges++;
                     maxIndex--;
                 }
@@ -70,33 +77,28 @@ public class Graph {
 
     public void findShortestPath(int startVertex, Heap<Vertex> heap) {
         //initialization
-        for(int i = 1; i <= vertices.length; i++) {
-            Vertex u = getVertex(i);
-            if(u.getIndex() == startVertex) {
-                u.setDistance(0);
-            }
-            heap.insert(u);
-        }
+        Vertex u = getVertex(startVertex);
+        u.setDistance(0);
+        heap.insert(u);
 
-        int i = 0;
         while(!heap.isEmpty()){
-            i++;
-            if(i % 1000000 == 0) {
-                System.out.println(i);
-            }
             // find v not in S with d(v) minimum;
             Vertex v = heap.removeMin();
             v.setProcessed(true); // shortest path to 'v' is already known
-            // perform restoreHeapProperty for each vertex 'w' adjacent to 'v'
+            // perform decreaseKey for each vertex 'w' adjacent to 'v'
             for(AdjListNode node: v.getAdjList()){
                 Vertex w = getVertex(node.getVertexNumber());
-                if(!w.getProcessed()) {
+                if(!w.isProcessed()) {
                     int newDistance = v.getDistance() + node.getWeight();
                     if(newDistance < w.getDistance()){
-                        w.setDistance(newDistance);
                         w.setPredecessor(v.getIndex());
-
-                        heap.restoreHeapProperty(w);
+                        if(w.isInserted()) {
+                            heap.decreaseKey(w, newDistance);
+                        }else {
+                            w.setDistance(newDistance);
+                            w.setInserted(true);
+                            heap.insert(w);
+                        }
                     }
                 }
             }

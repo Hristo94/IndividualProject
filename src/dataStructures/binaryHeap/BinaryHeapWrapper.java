@@ -18,7 +18,8 @@ public class BinaryHeapWrapper implements Heap<Vertex> {
 
     @Override
     public Vertex removeMin() {
-        return binaryHeap.removeMin().getData();
+        Vertex data = binaryHeap.removeMin().getData();
+        return data;
     }
 
     @Override
@@ -32,7 +33,8 @@ public class BinaryHeapWrapper implements Heap<Vertex> {
     }
 
     @Override
-    public void restoreHeapProperty(Vertex vertex) {
+    public void decreaseKey(Vertex vertex, int newDistance) {
+        vertex.setDistance(newDistance);
         BinaryHeapNode<Vertex> binaryHeapNode = binaryHeapNodes[vertex.getIndex() - 1];
         binaryHeap.upHeap(binaryHeapNode);
     }
