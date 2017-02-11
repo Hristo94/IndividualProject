@@ -17,6 +17,8 @@ public class Vertex implements Comparable<Vertex>{
     private boolean processed;
     private boolean inserted;
 
+    public int bucketIndex;
+    public int segmentIndex;
     public Vertex(int n) {
         /**
          use concurrent data structure for the adjacency list
@@ -77,10 +79,10 @@ public class Vertex implements Comparable<Vertex>{
     @Override
     public int compareTo(Vertex v) {
         int compare = this.distance - v.distance;
-        if(compare != 0) {
-            return compare;
+        if(compare == 0) {
+            compare = this.index - v.index;
         }
-        return this.index - v.index;
+        return compare;
     }
 
     @Override
@@ -88,8 +90,4 @@ public class Vertex implements Comparable<Vertex>{
         return index == ((Vertex) o).index;
     }
 
-    @Override
-    public int hashCode(){
-        return index;
-    }
 }

@@ -75,22 +75,4 @@ public class Utils {
         return  output;
     }
 
-//    public static void generateRandomGraph(int numVertices, int numEdges, int maxDistance, String fileName) {
-//        try {
-//            Graph graph = Graph.generateRandomGraph(numVertices, numEdges, maxDistance);
-//            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8));
-//            writer.write(graph.size() + "\n");
-//            for(int i = 1; i <= graph.size(); i++) {
-//                Vertex v = graph.getVertex(i);
-//                for(AdjListNode adjListNode: v.getAdjList()) {
-//                    writer.write(v.getIndex() + " " + adjListNode.getVertexNumber() + " " + adjListNode.getWeight() + "\n");
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        System.out.println("completed");
-//    }
-
 }

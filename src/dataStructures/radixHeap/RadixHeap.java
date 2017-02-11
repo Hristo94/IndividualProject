@@ -12,6 +12,8 @@ public class RadixHeap implements Heap<Vertex> {
     private int lastDeleted = 0;
     private int size = 0;
 
+    public long time = 0;
+
     public RadixHeap() {
         for(int i = 0; i < buckets.length; i++) {
             buckets[i] = new HashSet<>();
@@ -50,23 +52,13 @@ public class RadixHeap implements Heap<Vertex> {
     }
 
     public Vertex removeMin() {
-//        for(int i = 0; i < buckets.length; i++) {
-//            System.out.println("bucket " + i + ": " + buckets[i].size());
-//        }
-
-        if (isEmpty()) {
-            throw new IllegalStateException("Heap is empty");
-        }
         Vertex minVertex = null;
-        if (!buckets[0].isEmpty()) {
-            minVertex = buckets[0].iterator().next();
-        } else {
-            for (int i = 1; i < buckets.length; i++) {
-                HashSet<Vertex> bucket = buckets[i];
-                if (!bucket.isEmpty()) {
-                    minVertex = Collections.min(bucket);
-                    break;
-                }
+        for (int i = 0; i < buckets.length; i++) {
+            HashSet<Vertex> bucket = buckets[i];
+            if (!bucket.isEmpty()) {
+               // System.out.println(bucket.size());
+                minVertex = Collections.min(bucket);
+                break;
             }
         }
 
@@ -81,14 +73,12 @@ public class RadixHeap implements Heap<Vertex> {
 
     private int getBucketIndex(Vertex v) {
         int xorred = lastDeleted ^ v.getDistance();
-        if (xorred == 0) return 0;
-        return getLargestBitSet(xorred) + 1;
+        return log(xorred) + 1;
     }
 
-    private static int getLargestBitSet(int val) {
-        if (val == 0) return -1;
-        int leadingZeroes = Integer.numberOfLeadingZeros(val);
-        return 31 - leadingZeroes;
+    private int log(int x) {
+        int res = -1;
+        while (x > 0) { res++ ; x = x >> 1; }
+        return res;
     }
-
 }
