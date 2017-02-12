@@ -16,14 +16,14 @@ public class Main {
         // uncomment this line to turn on the UI
         //UserInterface.init();
 //
-        Graph graph2 = Utils.createGraphFrom("parsed2.txt");
-        //Graph graph2 = Graph.generateRandomGraph(100000, 500000,500000);
+        Graph graph2 = Utils.createGraphFrom("parsed1.txt");
+        //Graph graph2 = Graph.generateRandomGraph(10000000, 80000000,500000);
 ////////////        FibonacciHeapWrapper fibonacciHeapWrapper = new FibonacciHeapWrapper(graph2.size());
         BinaryHeapWrapper binaryHeapWrapper = new BinaryHeapWrapper(graph2.size());
         //RadixHeap2 radixHeap = new RadixHeap2();
 ////////////////
 ////////
-        //TwoLevelRadixHeap radixHeap = new TwoLevelRadixHeap();
+       //TwoLevelRadixHeap radixHeap = new TwoLevelRadixHeap();
         RadixHeap2 radixHeap = new RadixHeap2();
         long start = System.currentTimeMillis();
         graph2.findShortestPath(5,radixHeap);
@@ -49,12 +49,6 @@ public class Main {
 //        while ((x = x >> 2) > 0) result++;
 //        System.out.println(result);
        // System.out.println(4294967296L ^ 2147483648L);
-    }
 
-    public static int log2_floor (long x)
-    {
-        int res = -1;
-        while (x > 0) { res++ ; x = x >> 1; }
-        return res;
     }
 }

@@ -2,6 +2,7 @@ package graph;
 
 import dataStructures.pairingHeap.PairingHeap;
 
+import java.util.HashSet;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -19,6 +20,7 @@ public class Vertex implements Comparable<Vertex>{
 
     public int bucketIndex;
     public int segmentIndex;
+
     public Vertex(int n) {
         /**
          use concurrent data structure for the adjacency list

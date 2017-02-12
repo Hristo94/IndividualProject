@@ -59,11 +59,7 @@ public class RadixHeap2 implements Heap<Vertex> {
         updateUpperBounds(minVertex.bucketIndex);
         HashSet<Vertex> bucket = buckets[bucketIndex];
 
-        Iterator<Vertex> iterator = bucket.iterator();
-        while(iterator.hasNext()) {
-            Vertex vertex = iterator.next();
-            iterator.remove();
-
+        for(Vertex vertex: bucket){
             if (!vertex.equals(minVertex)) {
                 bucketIndex = getBucketIndex(vertex, vertex.bucketIndex);
                 buckets[bucketIndex].add(vertex);
@@ -77,11 +73,13 @@ public class RadixHeap2 implements Heap<Vertex> {
         for (int i = 1; i < buckets.length; i++) {
             HashSet<Vertex> bucket = buckets[i];
             if (!bucket.isEmpty()) {
-                Vertex minVertex = Collections.min(bucket);
+                Vertex minVertex;
                 if(i == 1) {
-                    bucket.remove(bucket.iterator().next());
+                    minVertex = bucket.iterator().next();
+                    bucket.remove(minVertex);
                 }
                 else {
+                    minVertex = Collections.min(bucket);
                     redistribute(minVertex);
                 }
 

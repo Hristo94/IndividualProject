@@ -3,11 +3,10 @@ package dataStructures.radixHeap;
 import dataStructures.interfaces.Heap;
 import graph.Vertex;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.HashSet;
 
 public class TwoLevelRadixHeap implements Heap<Vertex> {
-    public static final int K = 2048;
+    public static final int K = 32;
     public static final int MAX_BUCKET = (int) (Math.log(Math.pow(2,32) + 1) / Math.log(K)) + 2;
 
     private HashSet<Vertex>[][] buckets = new HashSet[MAX_BUCKET][K];
@@ -39,7 +38,6 @@ public class TwoLevelRadixHeap implements Heap<Vertex> {
 
         for(int i = 1; i < bucketSize.length - 1; i++) {
             bucketSize[i] = (int)Math.pow(K, i);
-            System.out.println(bucketSize[i]);
         }
 
         bucketSize[bucketSize.length - 1] = Integer.MAX_VALUE;
@@ -80,11 +78,7 @@ public class TwoLevelRadixHeap implements Heap<Vertex> {
 
         HashSet<Vertex> bucket = buckets[bucketIndex][segmentIndex];
 
-        Iterator<Vertex> iterator = bucket.iterator();
-        while(iterator.hasNext()) {
-            Vertex vertex = iterator.next();
-            iterator.remove();
-
+        for(Vertex vertex: bucket){
             if(!vertex.equals(minVertex)) {
                 bucketIndex = getBucketIndex(vertex, vertex.bucketIndex);
                 segmentIndex = getSegmentIndex(vertex, bucketIndex);
@@ -95,6 +89,7 @@ public class TwoLevelRadixHeap implements Heap<Vertex> {
                 vertex.segmentIndex = segmentIndex;
             }
         }
+        bucket.clear();
     }
 
     public Vertex removeMin() {
@@ -102,11 +97,13 @@ public class TwoLevelRadixHeap implements Heap<Vertex> {
             for(int j = 0; j < K; j++) {
                 HashSet<Vertex> bucket = buckets[i][j];
                 if (!bucket.isEmpty()) {
-                    Vertex minVertex = Collections.min(bucket);
+                    Vertex minVertex;
                     if(i == 1) {
-                        bucket.remove(bucket.iterator().next());
+                        minVertex = bucket.iterator().next();
+                        bucket.remove(minVertex);
                     }
                     else {
+                        minVertex = Collections.min(bucket);
                         redistribute(minVertex);
                     }
 
