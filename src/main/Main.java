@@ -3,6 +3,7 @@ package main;
 import dataStructures.binaryHeap.BinaryHeapWrapper;
 import dataStructures.radixHeap.RadixHeap2;
 import dataStructures.radixHeap.TwoLevelRadixHeap;
+import dataStructures.radixHeap.TwoLevelRadixHeap2;
 import graph.Graph;
 
 import java.io.IOException;
@@ -16,14 +17,15 @@ public class Main {
         // uncomment this line to turn on the UI
         //UserInterface.init();
 //
-        Graph graph2 = Utils.createGraphFrom("parsed1.txt");
-        //Graph graph2 = Graph.generateRandomGraph(10000000, 80000000,500000);
+        //Graph graph2 = Utils.createGraphFrom("parsed1.txt");
+        Graph graph2 = Graph.generateRandomGraph(10000000, 50000000,50000);
 ////////////        FibonacciHeapWrapper fibonacciHeapWrapper = new FibonacciHeapWrapper(graph2.size());
         BinaryHeapWrapper binaryHeapWrapper = new BinaryHeapWrapper(graph2.size());
         //RadixHeap2 radixHeap = new RadixHeap2();
 ////////////////
 ////////
-       //TwoLevelRadixHeap radixHeap = new TwoLevelRadixHeap();
+      // TwoLevelRadixHeap2 radixHeap = new TwoLevelRadixHeap2();
+        //TwoLevelRadixHeap radixHeap = new TwoLevelRadixHeap();
         RadixHeap2 radixHeap = new RadixHeap2();
         long start = System.currentTimeMillis();
         graph2.findShortestPath(5,radixHeap);
