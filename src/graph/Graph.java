@@ -2,6 +2,7 @@ package graph;
 
 import dataStructures.interfaces.Heap;
 
+import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -17,53 +18,25 @@ public class Graph {
         }
     }
 
-    public static Graph generateRandomGraph(int numVertices, long numEdges, int maxDistance) {
+    public static Graph generateRandomGraph(int numVertices, double probability, int maxDistance) {
         Graph graph = new Graph(numVertices);
         Random random = new Random();
+        long size = 0;
 
-        int numEdgesPerVertex = (int) (numEdges / numVertices);
-        int numEdgesPerVertexRemainder = (int) numEdges % numVertices;
+        for(int i = 1; i <= numVertices; i++) {
+            for(int j = i + 1; j <= numVertices; j+= 1 + (Math.log(1 - random.nextDouble()) / Math.log(1- probability))) {
+                Vertex v = graph.getVertex(i);
+                Vertex w = graph.getVertex(j);
 
-        int[] adjacentVertices = new int[numVertices];
-        for(int i = 0; i < numVertices; i++) {
-            adjacentVertices[i] = i + 1;
+                int distance = random.nextInt(maxDistance) + 1;
+                v.addToAdjList(j, distance);
+                w.addToAdjList(i, distance);
+
+                size++;
+            }
         }
-        int totalEdges = 0;
-        for (int i = 1; i <= numVertices; i++) {
-            if(i% 1000000 == 0) {
-                System.out.println(i);
-            }
-
-            Vertex v = graph.getVertex(i);
-            int maxIndex = adjacentVertices.length - 1;
-
-            int edges = 0;
-            if(numEdgesPerVertexRemainder > 0) {
-                edges--;
-                numEdgesPerVertexRemainder--;
-            }
-
-            while(edges < numEdgesPerVertex) {
-                int randIndex = random.nextInt(maxIndex + 1);
-
-                int w = adjacentVertices[randIndex];
-
-                if(v.getIndex() != w) {
-
-                    v.addToAdjList(w, random.nextInt(maxDistance) + 1);
-
-                    totalEdges++;
-                    edges++;
-                    maxIndex--;
-                }
-
-                int temp = adjacentVertices[maxIndex];
-                adjacentVertices[maxIndex] = adjacentVertices[randIndex];
-                adjacentVertices[randIndex] = temp;
-            }
-
-        }
-
+//
+        System.out.println(size);
         return graph;
     }
 

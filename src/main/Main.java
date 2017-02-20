@@ -17,21 +17,23 @@ public class Main {
         // uncomment this line to turn on the UI
         //UserInterface.init();
 //
-        //Graph graph2 = Utils.createGraphFrom("parsed1.txt");
-        Graph graph2 = Graph.generateRandomGraph(10000000, 50000000,50000);
-////////////        FibonacciHeapWrapper fibonacciHeapWrapper = new FibonacciHeapWrapper(graph2.size());
-        BinaryHeapWrapper binaryHeapWrapper = new BinaryHeapWrapper(graph2.size());
+        //Graph graph2 = Utils.createGraphFrom("graph");
+        Graph.generateRandomGraph(1000,0.9,500);
+
+//        Graph graph2 = Graph.generateRandomGraph(10000000, 50000000,50000);
+//////////////        FibonacciHeapWrapper fibonacciHeapWrapper = new FibonacciHeapWrapper(graph2.size());
+      //  BinaryHeapWrapper binaryHeapWrapper = new BinaryHeapWrapper(graph2.size());
         //RadixHeap2 radixHeap = new RadixHeap2();
 ////////////////
 ////////
       // TwoLevelRadixHeap2 radixHeap = new TwoLevelRadixHeap2();
         //TwoLevelRadixHeap radixHeap = new TwoLevelRadixHeap();
-        RadixHeap2 radixHeap = new RadixHeap2();
-        long start = System.currentTimeMillis();
-        graph2.findShortestPath(5,radixHeap);
-        long end = System.currentTimeMillis();
-        System.out.println(Utils.produceOutput(graph2, 5 , 55, end - start));
-        System.out.println(radixHeap.time / 1000000);
+//        RadixHeap2 radixHeap = new RadixHeap2();
+//        long start = System.currentTimeMillis();
+//        graph2.findShortestPath(5,binaryHeapWrapper);
+//        long end = System.currentTimeMillis();
+//        System.out.println(Utils.produceOutput(graph2, 5 , 55, end - start));
+//        System.out.println(radixHeap.time / 1000000);
         //System.out.println(log2_floor((long)Math.pow(2,31) + 1) + 2) ;
       //  RadixHeap2 radixHeap2= new RadixHeap2();
 //        int x = 5540;

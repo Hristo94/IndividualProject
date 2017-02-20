@@ -51,6 +51,22 @@ public class Utils {
         return graph;
     }
 
+    public static void generateRandomGraph(int numVertices, double probability, int maxDistance, String graphName) {
+        Graph graph = Graph.generateRandomGraph(numVertices, probability, maxDistance);
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(graphName), StandardCharsets.UTF_8))) {
+            writer.write(graph.size() + "\n");
+            for(int i = 1; i <= graph.size(); i++) {
+                Vertex v = graph.getVertex(i);
+                for(AdjListNode adjListNode: v.getAdjList()) {
+                    writer.write(v.getIndex() + " " + adjListNode.getVertexNumber() + " " + adjListNode.getWeight() + "\n");
+                }
+            }
+        } catch (IOException ex) {
+            // handle me
+        }
+        System.out.println("completed");
+    }
+
     public static String produceOutput(Graph graph, int startVertex, int endVertex, long elapsedTime) {
         String output = "";
 
@@ -74,5 +90,4 @@ public class Utils {
         output += "Elapsed time: " + elapsedTime + " milliseconds";
         return  output;
     }
-
 }

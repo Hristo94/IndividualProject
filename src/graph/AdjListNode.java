@@ -29,4 +29,9 @@ public class AdjListNode{
 
         return vertexNumber == adjListNode.getVertexNumber();
     }
+
+    @Override
+    public String toString() {
+        return vertexNumber + "";
+    }
 }
