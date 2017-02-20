@@ -3,6 +3,7 @@ package graph;
 import dataStructures.pairingHeap.PairingHeap;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -26,7 +27,7 @@ public class Vertex implements Comparable<Vertex>{
          use concurrent data structure for the adjacency list
          in order to process the input file with multiple threads
          */
-        adjList = new ConcurrentLinkedQueue();
+        adjList = new LinkedList<>();
         index = n;
         distance = Integer.MAX_VALUE;
         predecessor = n;

@@ -24,11 +24,14 @@ public class Graph {
         long size = 0;
 
         for(int i = 1; i <= numVertices; i++) {
-            for(int j = i + 1; j <= numVertices; j+= 1 + (Math.log(1 - random.nextDouble()) / Math.log(1- probability))) {
+            for(int j = i + 1; j <= numVertices; j += 1 + (Math.log(1 - random.nextDouble()) / Math.log(1 - probability))) {
                 Vertex v = graph.getVertex(i);
                 Vertex w = graph.getVertex(j);
 
                 int distance = random.nextInt(maxDistance) + 1;
+
+                // since the graph is undirected,
+                // both vertices should add the other vertex to their adjacency list
                 v.addToAdjList(j, distance);
                 w.addToAdjList(i, distance);
 

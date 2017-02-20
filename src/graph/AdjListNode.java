@@ -22,16 +22,4 @@ public class AdjListNode{
     public int getWeight() {
         return weight;
     }
-
-    @Override
-    public boolean equals(Object object) {
-        AdjListNode adjListNode = (AdjListNode) object;
-
-        return vertexNumber == adjListNode.getVertexNumber();
-    }
-
-    @Override
-    public String toString() {
-        return vertexNumber + "";
-    }
 }
