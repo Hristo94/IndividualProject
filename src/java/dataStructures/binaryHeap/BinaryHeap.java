@@ -6,7 +6,7 @@ package dataStructures.binaryHeap;
 public class BinaryHeap<T extends Comparable<T>> {
 
     private BinaryHeapNode<T> heap[]; // contains the objects in the heap
-    private int last; // index of last element in heap
+    private int last; // index of lastRemoved element in heap
     private int capacity; // max number of elements in heap
 
     public BinaryHeap(int n) {

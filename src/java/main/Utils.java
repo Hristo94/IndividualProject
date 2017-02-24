@@ -3,14 +3,12 @@ package main;
 import dataStructures.binaryHeap.BinaryHeapWrapper;
 import dataStructures.fibonacciHeap.FibonacciHeapWrapper;
 import dataStructures.interfaces.Heap;
-import dataStructures.pairingHeap.PairingHeapWrapper;
 import graph.AdjListNode;
 import graph.Graph;
 import graph.Vertex;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Random;
 
 /**
  * Created by hristo on 01/11/2016.
@@ -25,9 +23,6 @@ public class Utils {
             case Constants.BINARY_HEAP: {
                 return new BinaryHeapWrapper(size);
             }
-            case Constants.PAIRING_HEAP: {
-                return new PairingHeapWrapper(size);
-            }
             default: {
                 throw new IllegalArgumentException("Invalid heap type flag: " + heapType);
             }
@@ -38,18 +33,26 @@ public class Utils {
         BufferedReader in = new BufferedReader(new FileReader(inputFileName));
         Graph graph = new Graph(Integer.parseInt(in.readLine()));
 
-        // process the file with multiple threads
-        in.lines().forEach(line -> {
+        int maxDistance = 0;
+
+        String line;
+        while((line = in.readLine()) != null) {
             String[] lineElements = line.split(" ");
             int vertexIndex = Integer.parseInt(lineElements[0]);
             int adjacentVertexIndex = Integer.parseInt(lineElements[1]);
             int weight = Integer.parseInt(lineElements[2]);
+            if(weight > maxDistance) {
+                maxDistance = weight;
+            }
+
             Vertex v = graph.getVertex(vertexIndex);
             v.addToAdjList(adjacentVertexIndex, weight);
-        });
+        }
 
+        graph.setMaxDistance(maxDistance);
         return graph;
     }
+
 
     public static void generateRandomGraph(int numVertices, double probability, int maxDistance, String graphName) {
         Graph graph = Graph.generateRandomGraph(numVertices, probability, maxDistance);
@@ -64,7 +67,6 @@ public class Utils {
         } catch (IOException ex) {
             // handle me
         }
-        System.out.println("completed");
     }
 
     public static String produceOutput(Graph graph, int startVertex, int endVertex, long elapsedTime) {

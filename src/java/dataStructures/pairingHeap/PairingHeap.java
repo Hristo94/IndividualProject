@@ -146,13 +146,13 @@ public class PairingHeap<T extends Comparable<T>>
 
         int j = i - 2;
 
-        // j has the result of last compareAndLink.
-        // If an odd number of trees, get the last one.
+        // j has the result of lastRemoved compareAndLink.
+        // If an odd number of trees, get the lastRemoved one.
         if( j == numSiblings - 3 )
             treeArray[ j ] = compareAndLink( treeArray[ j ], treeArray[ j + 2 ] );
 
-        // Now go right to left, merging last tree with
-        // next to last. The result becomes the new last.
+        // Now go right to left, merging lastRemoved tree with
+        // next to lastRemoved. The result becomes the new lastRemoved.
         for( ; j >= 2; j -= 2 )
             treeArray[ j - 2 ] = compareAndLink( treeArray[ j - 2 ], treeArray[ j ] );
 

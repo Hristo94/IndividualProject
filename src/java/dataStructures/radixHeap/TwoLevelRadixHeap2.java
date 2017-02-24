@@ -1,24 +1,37 @@
 package dataStructures.radixHeap;
 
+import com.googlecode.javaewah.datastructure.BitSet;
 import dataStructures.interfaces.Heap;
 import graph.Vertex;
+
 import java.util.Collections;
 import java.util.HashSet;
 
-public class TwoLevelRadixHeap implements Heap<Vertex> {
-    public static final int K = 4096;
-    public static final int MAX_BUCKET = (int) (Math.log(Math.pow(2,32) + 1) / Math.log(K)) + 2;
+public class TwoLevelRadixHeap2 implements Heap<Vertex> {
+    private int MAX_BUCKET;
 
-    private HashSet<Vertex>[][] buckets = new HashSet[MAX_BUCKET][K];
-    private int[] upperBound = new int[MAX_BUCKET]; // array of upper bounds
-    private int[] bucketSize = new int[MAX_BUCKET]; // store the size for each bucket
+    private HashSet<Vertex>[][] buckets;
+    private int[] upperBound; // array of upper bounds
+    private int[] bucketSize; // store the size for each bucket
+
+    private BitSet bucketBitSet;
+    private BitSet[] segmentBitSets;
 
     private int lastDeleted = 0;
     private int size = 0;
+    private int K = 0;
 
-    public long time = 0;
+    public TwoLevelRadixHeap2(int K) {
+        this.K = K; //
 
-    public TwoLevelRadixHeap() {
+        MAX_BUCKET = (int) (Math.log(Math.pow(2,32) + 1) / Math.log(K)) + 2;
+        buckets = new HashSet[MAX_BUCKET][K];
+        upperBound = new int[MAX_BUCKET]; // array of upper bounds
+        bucketSize = new int[MAX_BUCKET]; // store the size for each bucket
+
+        bucketBitSet = new BitSet(MAX_BUCKET);
+        segmentBitSets = new BitSet[MAX_BUCKET];
+
         for(int i = 1; i < buckets.length; i++) {
             for(int j = 0; j < K; j++){
                 buckets[i][j] = new HashSet<>();
@@ -41,18 +54,31 @@ public class TwoLevelRadixHeap implements Heap<Vertex> {
         }
 
         bucketSize[bucketSize.length - 1] = Integer.MAX_VALUE;
+
+
+        // initialize the segment bit map
+        for(int i = 0; i < segmentBitSets.length; i++) {
+            segmentBitSets[i] = new BitSet(K);
+        }
     }
 
     public void insert(Vertex v) {
         int bucketIndex = getBucketIndex(v);
         int segmentIndex = getSegmentIndex(v,bucketIndex);
 
+        insert(v, bucketIndex, segmentIndex);
+
+        size++;
+    }
+
+    private void insert(Vertex v, int bucketIndex, int segmentIndex) {
         buckets[bucketIndex][segmentIndex].add(v);
 
         v.bucketIndex = bucketIndex;
         v.segmentIndex = segmentIndex;
 
-        size++;
+        bucketBitSet.set(bucketIndex);
+        segmentBitSets[bucketIndex].set(segmentIndex);
     }
 
     public void decreaseKey(Vertex v, int newDistance) {
@@ -60,14 +86,20 @@ public class TwoLevelRadixHeap implements Heap<Vertex> {
 
         bucket.remove(v);
 
+        if(bucket.isEmpty()) {
+            BitSet segmentBitSet = segmentBitSets[v.bucketIndex];
+            segmentBitSet.clear(v.segmentIndex);
+
+            if(segmentBitSet.empty()) {
+                bucketBitSet.clear(v.bucketIndex);
+            }
+        }
+
         v.setDistance(newDistance);
         int bucketIndex = getBucketIndex(v);
         int segmentIndex = getSegmentIndex(v,bucketIndex);
 
-        buckets[bucketIndex][segmentIndex].add(v);
-
-        v.bucketIndex = bucketIndex;
-        v.segmentIndex = segmentIndex;
+        insert(v, bucketIndex, segmentIndex);
     }
 
     private void redistribute(Vertex minVertex) {
@@ -84,36 +116,39 @@ public class TwoLevelRadixHeap implements Heap<Vertex> {
                 bucketIndex = getBucketIndex(vertex, vertex.bucketIndex);
                 segmentIndex = getSegmentIndex(vertex, bucketIndex);
 
-                buckets[bucketIndex][segmentIndex].add(vertex);
-
-                vertex.bucketIndex = bucketIndex;
-                vertex.segmentIndex = segmentIndex;
+                insert(vertex, bucketIndex, segmentIndex);
             }
         }
         bucket.clear();
     }
 
     public Vertex removeMin() {
-        for (int i = 1; i < buckets.length; i++) {
-            for(int j = 0; j < K; j++) {
-                HashSet<Vertex> bucket = buckets[i][j];
-                if (!bucket.isEmpty()) {
-                    Vertex minVertex;
-                    if(i == 1) {
-                        minVertex = bucket.iterator().next();
-                        bucket.remove(minVertex);
-                    }
-                    else {
-                        minVertex = Collections.min(bucket);
-                        redistribute(minVertex);
-                    }
+        int bucketIndex = bucketBitSet.nextSetBit(0);
+        int segmentIndex = segmentBitSets[bucketIndex].nextSetBit(0);
+        HashSet<Vertex> bucket = buckets[bucketIndex][segmentIndex];
 
-                    size--;
-                    return minVertex;
-                }
+        Vertex minVertex;
+        if(bucketIndex == 1) {
+            minVertex = bucket.iterator().next();
+            bucket.remove(minVertex);
+        }
+        else {
+            minVertex = Collections.min(bucket);
+            redistribute(minVertex);
+        }
+
+        size--;
+
+        if(bucket.isEmpty()) {
+            BitSet segmentBitSet = segmentBitSets[bucketIndex];
+            segmentBitSet.clear(segmentIndex);
+
+            if(segmentBitSet.empty()) {
+                bucketBitSet.clear(bucketIndex);
             }
         }
-        return null;
+
+        return minVertex;
     }
 
     public boolean isEmpty() { return size() == 0; }
@@ -146,7 +181,7 @@ public class TwoLevelRadixHeap implements Heap<Vertex> {
     }
 
     public int getSegmentIndex(Vertex v, int bucketIndex) {
-        if(bucketIndex == MAX_BUCKET - 1) { // the last bucket has only one segment
+        if(bucketIndex == MAX_BUCKET - 1) { // the lastRemoved bucket has only one segment
             return 0;
         }
         int i = (upperBound[bucketIndex] - v.getDistance()) / (int) Math.pow(K, bucketIndex - 1);

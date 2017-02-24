@@ -1,11 +1,7 @@
 package graph;
 
-import dataStructures.pairingHeap.PairingHeap;
-
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  class to represent a vertex in a graph

@@ -2,13 +2,15 @@ package graph;
 
 import dataStructures.interfaces.Heap;
 
-import java.math.BigInteger;
 import java.util.*;
 
 /**
  class to represent an undirected graph using adjacency lists
  */
 public class Graph {
+    private int maxDistance = 0; // used for Van Emde Boas tree, that needs to know the max distance
+                            // between two vertices in advance
+
     private Vertex[] vertices; // the (array of) vertices
 
     public Graph(int n) {
@@ -16,6 +18,14 @@ public class Graph {
         for (int i = 0; i < n; i++) {
             vertices[i] = new Vertex(i + 1);
         }
+    }
+
+    public void setMaxDistance(int maxDistance) {
+        this.maxDistance = maxDistance;
+    }
+
+    public int getMaxDistance() {
+        return maxDistance;
     }
 
     public static Graph generateRandomGraph(int numVertices, double probability, int maxDistance) {
@@ -28,7 +38,10 @@ public class Graph {
                 Vertex v = graph.getVertex(i);
                 Vertex w = graph.getVertex(j);
 
-                int distance = random.nextInt(maxDistance) + 1;
+                int distance = random.nextInt(maxDistance - 1) + 1;
+                if(distance > maxDistance) {
+                    maxDistance = distance;
+                }
 
                 // since the graph is undirected,
                 // both vertices should add the other vertex to their adjacency list

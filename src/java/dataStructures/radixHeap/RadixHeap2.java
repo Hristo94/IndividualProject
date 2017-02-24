@@ -4,7 +4,6 @@ import dataStructures.interfaces.Heap;
 import graph.Vertex;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 
 public class RadixHeap2 implements Heap<Vertex> {
     private static final int MAX_BUCKET = 33;
