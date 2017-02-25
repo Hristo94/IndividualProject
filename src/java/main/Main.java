@@ -20,12 +20,12 @@ public class Main {
         //BinaryHeapWrapper binaryHeapWrapper = new BinaryHeapWrapper(graph.size());
         //FibonacciHeapWrapper fibonacciHeapWrapper = new FibonacciHeapWrapper(graph.size());
         //RadixHeap radixHeap = new RadixHeap();
-        TwoLevelRadixHeap twoLevelRadixHeap = new TwoLevelRadixHeap(32);
+        //TwoLevelRadixHeap twoLevelRadixHeap = new TwoLevelRadixHeap(32);
         //TwoLevelRadixHeap2 twoLevelRadixHeap2 = new TwoLevelRadixHeap2((int)Math.pow(2,8));
 
-        //VEBTree vebTree = VEBTree.createVEBTree(graph.getMaxDistance());
+        VEBTree vebTree = VEBTree.createVEBTree(graph.getMaxDistance());
         long start = System.currentTimeMillis();
-        graph.findShortestPath(5, twoLevelRadixHeap);
+        graph.findShortestPath(5, vebTree);
         long end = System.currentTimeMillis();
         System.out.println(Utils.produceOutput(graph, 5 , 55, end - start));
 

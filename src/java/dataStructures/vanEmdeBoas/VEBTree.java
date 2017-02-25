@@ -8,16 +8,16 @@ import java.util.HashSet;
 
 public class VEBTree implements Heap<Vertex>
 {
-    public static int BASE_SIZE = 2; /* Base vEB Node size */
-    public static int NULL = -1; /* Initial min and max values */
+    protected static int BASE_SIZE = 2; /* Base vEB Node size */
+    protected static int NULL = -1; /* Initial min and max values */
 
     private ObjectOpenHashSet<Vertex>[] values;
 
-    public int lastRemoved = NULL;
+    private int lastRemoved = NULL;
     private VEBNode root;
     private int size = 0;
 
-    public int maxDistance;
+    private int maxDistance;
 
     public static VEBTree createVEBTree(int maxDistance)
     {
@@ -83,7 +83,7 @@ public class VEBTree implements Heap<Vertex>
         return minVertex;
     }
 
-    public void delete(Vertex v)
+    private void delete(Vertex v)
     {
         int x = v.getDistance() % (maxDistance + 1);
         values[x].remove(v);
