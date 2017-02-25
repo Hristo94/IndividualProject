@@ -3,14 +3,13 @@ package dataStructures.radixHeap;
 import com.googlecode.javaewah.datastructure.BitSet;
 import dataStructures.interfaces.Heap;
 import graph.Vertex;
-
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Collections;
-import java.util.HashSet;
 
 public class TwoLevelRadixHeap2 implements Heap<Vertex> {
     private int MAX_BUCKET;
 
-    private HashSet<Vertex>[][] buckets;
+    private ObjectOpenHashSet<Vertex>[][] buckets;
     private int[] upperBound; // array of upper bounds
     private int[] bucketSize; // store the size for each bucket
 
@@ -25,7 +24,7 @@ public class TwoLevelRadixHeap2 implements Heap<Vertex> {
         this.K = K; //
 
         MAX_BUCKET = (int) (Math.log(Math.pow(2,32) + 1) / Math.log(K)) + 2;
-        buckets = new HashSet[MAX_BUCKET][K];
+        buckets = new ObjectOpenHashSet[MAX_BUCKET][K];
         upperBound = new int[MAX_BUCKET]; // array of upper bounds
         bucketSize = new int[MAX_BUCKET]; // store the size for each bucket
 
@@ -34,7 +33,7 @@ public class TwoLevelRadixHeap2 implements Heap<Vertex> {
 
         for(int i = 1; i < buckets.length; i++) {
             for(int j = 0; j < K; j++){
-                buckets[i][j] = new HashSet<>();
+                buckets[i][j] = new ObjectOpenHashSet<>();
             }
         }
 
@@ -82,7 +81,7 @@ public class TwoLevelRadixHeap2 implements Heap<Vertex> {
     }
 
     public void decreaseKey(Vertex v, int newDistance) {
-        HashSet<Vertex> bucket = buckets[v.bucketIndex][v.segmentIndex];
+        ObjectOpenHashSet<Vertex> bucket = buckets[v.bucketIndex][v.segmentIndex];
 
         bucket.remove(v);
 
@@ -109,7 +108,7 @@ public class TwoLevelRadixHeap2 implements Heap<Vertex> {
         lastDeleted = minVertex.getDistance();
         updateUpperBounds(minVertex.bucketIndex);
 
-        HashSet<Vertex> bucket = buckets[bucketIndex][segmentIndex];
+        ObjectOpenHashSet<Vertex> bucket = buckets[bucketIndex][segmentIndex];
 
         for(Vertex vertex: bucket){
             if(!vertex.equals(minVertex)) {
@@ -125,7 +124,7 @@ public class TwoLevelRadixHeap2 implements Heap<Vertex> {
     public Vertex removeMin() {
         int bucketIndex = bucketBitSet.nextSetBit(0);
         int segmentIndex = segmentBitSets[bucketIndex].nextSetBit(0);
-        HashSet<Vertex> bucket = buckets[bucketIndex][segmentIndex];
+        ObjectOpenHashSet<Vertex> bucket = buckets[bucketIndex][segmentIndex];
 
         Vertex minVertex;
         if(bucketIndex == 1) {

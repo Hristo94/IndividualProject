@@ -2,6 +2,8 @@ package dataStructures.vanEmdeBoas;
 
 import dataStructures.interfaces.Heap;
 import graph.Vertex;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+
 import java.util.HashSet;
 
 public class VEBTree implements Heap<Vertex>
@@ -9,7 +11,7 @@ public class VEBTree implements Heap<Vertex>
     public static int BASE_SIZE = 2; /* Base vEB Node size */
     public static int NULL = -1; /* Initial min and max values */
 
-    private HashSet<Vertex>[] values;
+    private ObjectOpenHashSet<Vertex>[] values;
 
     public int lastRemoved = NULL;
     private VEBNode root;
@@ -36,10 +38,10 @@ public class VEBTree implements Heap<Vertex>
     {
         this.maxDistance = maxDistance;
 
-        values = new HashSet[this.maxDistance + 1];
+        values = new ObjectOpenHashSet[this.maxDistance + 1];
 
         for(int i = 0; i < values.length; i++) {
-            values[i] = new HashSet<>();
+            values[i] = new ObjectOpenHashSet<>();
         }
 
         root = new VEBNode(universeSize);
