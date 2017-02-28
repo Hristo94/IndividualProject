@@ -1,16 +1,16 @@
 package dataStructures.radixHeap;
 
+import dataStructures.DList;
 import dataStructures.interfaces.Heap;
 import graph.Vertex;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+
 
 import java.util.Collections;
-import java.util.HashSet;
 
 public class RadixHeap implements Heap<Vertex> {
     private static final int MAX_BUCKET = 33;
 
-    private ObjectOpenHashSet<Vertex>[] buckets = new ObjectOpenHashSet[MAX_BUCKET];
+    private DList[] buckets = new DList[MAX_BUCKET];
     private int[] upperBound = new int[MAX_BUCKET]; // array of upper bounds
     private int[] bucketSize = new int[MAX_BUCKET];
 
@@ -22,7 +22,7 @@ public class RadixHeap implements Heap<Vertex> {
 
     public RadixHeap() {
         for(int i = 0; i < buckets.length; i++) {
-            buckets[i] = new ObjectOpenHashSet<>();
+            buckets[i] = new DList();
         }
 
         for(int i = 0; i < upperBound.length; i++) {
@@ -38,18 +38,18 @@ public class RadixHeap implements Heap<Vertex> {
 
     public void insert(Vertex v) {
         int bucketIndex = getBucketIndex(v);
-        buckets[bucketIndex].add(v);
+        buckets[bucketIndex].insert(v);
         v.bucketIndex = bucketIndex;
         size++;
     }
 
     public void decreaseKey(Vertex v, int newDistance) {
-        ObjectOpenHashSet<Vertex> bucket = buckets[v.bucketIndex];
+        DList bucket = buckets[v.bucketIndex];
         bucket.remove(v);
 
         v.setDistance(newDistance);
         int bucketIndex = getBucketIndex(v, v.bucketIndex);
-        buckets[bucketIndex].add(v);
+        buckets[bucketIndex].insert(v);
         v.bucketIndex = bucketIndex;
     }
 
@@ -58,29 +58,28 @@ public class RadixHeap implements Heap<Vertex> {
         lastDeleted = minVertex.getDistance();
 
         updateUpperBounds(minVertex.bucketIndex);
-        ObjectOpenHashSet<Vertex> bucket = buckets[bucketIndex];
-
-        for(Vertex vertex: bucket){
+        DList bucket = buckets[bucketIndex];
+        while(!bucket.isEmpty()) {
+            Vertex vertex = bucket.poll();
             if (!vertex.equals(minVertex)) {
                 bucketIndex = getBucketIndex(vertex, vertex.bucketIndex);
-                buckets[bucketIndex].add(vertex);
+                buckets[bucketIndex].insert(vertex);
                 vertex.bucketIndex = bucketIndex;
             }
         }
-        bucket.clear();
     }
 
     public Vertex removeMin() {
         for (int i = 1; i < buckets.length; i++) {
-            ObjectOpenHashSet<Vertex> bucket = buckets[i];
+            DList bucket = buckets[i];
             if (!bucket.isEmpty()) {
                 Vertex minVertex;
                 if(i == 1) {
-                    minVertex = bucket.iterator().next();
-                    bucket.remove(minVertex);
+                    minVertex = bucket.poll();
+//                    bucket.remove(minVertex);
                 }
                 else {
-                    minVertex = Collections.min(bucket);
+                    minVertex = bucket.findMin();
                     redistribute(minVertex);
                 }
 
@@ -88,7 +87,6 @@ public class RadixHeap implements Heap<Vertex> {
                 return minVertex;
             }
         }
-
         return null;
     }
 

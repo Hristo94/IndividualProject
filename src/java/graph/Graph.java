@@ -31,7 +31,7 @@ public class Graph {
     public static Graph generateRandomGraph(int numVertices, double probability, int maxDistance) {
         Graph graph = new Graph(numVertices);
         Random random = new Random();
-        long size = 0;
+        graph.setMaxDistance(maxDistance);
 
         for(int i = 1; i <= numVertices; i++) {
             for(int j = i + 1; j <= numVertices; j += 1 + (Math.log(1 - random.nextDouble()) / Math.log(1 - probability))) {
@@ -39,20 +39,13 @@ public class Graph {
                 Vertex w = graph.getVertex(j);
 
                 int distance = random.nextInt(maxDistance - 1) + 1;
-                if(distance > maxDistance) {
-                    maxDistance = distance;
-                }
 
                 // since the graph is undirected,
                 // both vertices should add the other vertex to their adjacency list
                 v.addToAdjList(j, distance);
                 w.addToAdjList(i, distance);
-
-                size++;
             }
         }
-//
-        System.out.println(size);
         return graph;
     }
 

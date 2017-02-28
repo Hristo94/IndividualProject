@@ -15,8 +15,15 @@ public class Vertex implements Comparable<Vertex>{
     private boolean processed;
     private boolean inserted;
 
+
+    // needed for radix heap
     public int bucketIndex;
     public int segmentIndex;
+
+    // neded for radix heap and veb tree
+    public  Vertex prev;
+    public Vertex next;
+
 
     public Vertex(int n) {
         /**
@@ -73,6 +80,22 @@ public class Vertex implements Comparable<Vertex>{
 
     public void setInserted(boolean inserted) {
         this.inserted = inserted;
+    }
+
+    public Vertex getPrev() {
+        return prev;
+    }
+
+    public void setPrev(Vertex prev) {
+        this.prev = prev;
+    }
+
+    public Vertex getNext() {
+        return next;
+    }
+
+    public void setNext(Vertex next) {
+        this.next = next;
     }
 
     @Override
