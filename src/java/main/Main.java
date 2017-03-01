@@ -15,13 +15,13 @@ public class Main {
         from which we control the execution of the program.
      */
     public static void main(String[] args) throws IOException {
-        Graph graph = Utils.createGraphFrom("10mil-50mil-500.txt");
+        Graph graph = Utils.createGraphFrom("10mil-50mil-500,000.txt");
         //Utils.generateRandomGraph(10000000, 0.0000005, 500, "10mil-50mil-500.txt");
-        BinaryHeapWrapper binaryHeapWrapper = new BinaryHeapWrapper(graph.size());
+        //BinaryHeapWrapper binaryHeapWrapper = new BinaryHeapWrapper(graph.size());
         //FibonacciHeapWrapper fibonacciHeapWrapper = new FibonacciHeapWrapper(graph.size());
          //RadixHeap radixHeap = new RadixHeap();
         //TwoLevelRadixHeap twoLevelRadixHeap = new TwoLevelRadixHeap(32);
-TwoLevelRadixHeap2 twoLevelRadixHeap2 = new TwoLevelRadixHeap2((int)Math.pow(2,10));
+TwoLevelRadixHeap2 twoLevelRadixHeap2 = new TwoLevelRadixHeap2((int)Math.pow(2,12));
 
 
 //        VEBTree vebTree = VEBTree.createVEBTree(graph.getMaxDistance());

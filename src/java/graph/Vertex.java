@@ -15,14 +15,13 @@ public class Vertex implements Comparable<Vertex>{
     private boolean processed;
     private boolean inserted;
 
-
     // needed for radix heap
     public int bucketIndex;
     public int segmentIndex;
 
-    // neded for radix heap and veb tree
-    public  Vertex prev;
-    public Vertex next;
+    // needed for radix heap and veb tree
+    private Vertex prev;
+    private Vertex next;
 
 
     public Vertex(int n) {

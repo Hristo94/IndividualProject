@@ -4,10 +4,6 @@ import dataStructures.DList;
 import dataStructures.interfaces.Heap;
 import graph.Vertex;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-
 public class VEBTree implements Heap<Vertex>
 {
     protected static int BASE_SIZE = 2; /* Base vEB Node size */
@@ -20,8 +16,6 @@ public class VEBTree implements Heap<Vertex>
     private int size = 0;
 
     private int maxDistance;
-
-    public long time = 0;
     public static VEBTree createVEBTree(int maxDistance)
     {
         // calculates the universe size from the max distance by finding the nearest power of 2, bigger than the maxDistance
@@ -67,10 +61,7 @@ public class VEBTree implements Heap<Vertex>
         int x = v.getDistance() % (maxDistance + 1);
         insertR(root, x, 1);
 
-        long start = System.nanoTime();
         values[x].insert(v);
-        long end = System.nanoTime();
-        time += end - start;
 
         size++;
     }
@@ -82,10 +73,7 @@ public class VEBTree implements Heap<Vertex>
         }
 
         lastRemoved = x;
-        long start = System.nanoTime();
         Vertex minVertex = values[x].poll();
-        long end = System.nanoTime();
-        time += end - start;
 
         deleteR(root, x, 1);
         size --;
@@ -96,10 +84,7 @@ public class VEBTree implements Heap<Vertex>
     private void delete(Vertex v)
     {
         int x = v.getDistance() % (maxDistance + 1);
-        long start = System.nanoTime();
         values[x].remove(v);
-        long end = System.nanoTime();
-        time += end - start;
         size --;
 
         deleteR(root, x, 1);
