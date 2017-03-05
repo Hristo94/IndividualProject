@@ -1,4 +1,4 @@
-package dataStructures.pairingHeap;
+package java.dataStructures.pairingHeap;
 
 /**
  * Created by hristo on 07/11/2016.

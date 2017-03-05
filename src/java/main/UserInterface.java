@@ -1,7 +1,7 @@
-package main;
+package java.main;
 
-import dataStructures.interfaces.Heap;
-import graph.Graph;
+import java.dataStructures.interfaces.Heap;
+import java.graph.Graph;
 
 import javax.swing.*;
 import java.awt.event.KeyAdapter;

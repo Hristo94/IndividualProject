@@ -15,7 +15,7 @@
  * (b) the terms of the Eclipse Public License v1.0 as published by
  * the Eclipse Foundation.
  */
-package dataStructures.fibonacciHeap;
+package java.dataStructures.fibonacciHeap;
 
 public class FibonacciHeapNode<T>
 {

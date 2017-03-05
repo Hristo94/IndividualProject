@@ -1,33 +1,39 @@
-package dataStructures.radixHeap;
+package java.dataStructures.radixHeap;
 
-import dataStructures.DList;
-import dataStructures.interfaces.Heap;
-import graph.Vertex;
+import java.dataStructures.DList;
+import java.dataStructures.interfaces.Heap;
+import java.graph.Vertex;
 
 
 import java.util.Collections;
 
 public class RadixHeap implements Heap<Vertex> {
-    private static final int MAX_BUCKET = 33;
+    private int MAX_BUCKET;
 
     private DList[] buckets = new DList[MAX_BUCKET];
     private int[] upperBound = new int[MAX_BUCKET]; // array of upper bounds
     private int[] bucketSize = new int[MAX_BUCKET];
-
-
     private int lastDeleted = 0;
     private int size = 0;
 
-    public long time = 0;
+    public RadixHeap(int maxDistance) {
 
-    public RadixHeap() {
+        // normally we need B = log2(C + 1) + 2 buckets starting from 1 to B
+        // for convenience we create one additional bucket that will not be used
+        // since arrays start from index 0
+        MAX_BUCKET = (int)Math.ceil((Math.log(maxDistance + 1) / Math.log(2))) + 3;
+        buckets = new DList[MAX_BUCKET];
+        upperBound = new int[MAX_BUCKET]; // array of upper bounds
+        bucketSize = new int[MAX_BUCKET];
+
         for(int i = 0; i < buckets.length; i++) {
             buckets[i] = new DList();
         }
 
-        for(int i = 0; i < upperBound.length; i++) {
+        for(int i = 0; i < upperBound.length - 1; i++) {
             upperBound[i] = (int)Math.pow(2, i - 1) - 1;
         }
+        upperBound[upperBound.length - 1] = Integer.MAX_VALUE;
 
         bucketSize[1] = 1;
         for(int i = 2; i < bucketSize.length - 1; i++) {

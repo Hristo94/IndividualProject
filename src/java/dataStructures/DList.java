@@ -1,10 +1,10 @@
-package dataStructures;
+package java.dataStructures;
 
-import graph.Vertex;
+import java.graph.Vertex;
 
 public class DList {
 
-    private int size; //number of elements
+    private int size;
     private Vertex first;
 
     public DList(){size = 0; first = null;}
@@ -20,7 +20,6 @@ public class DList {
             first = v;
             v.setPrev(null);
             v.setNext(null);
-
         }
         else {
             insertAtFirst(v);
@@ -29,7 +28,10 @@ public class DList {
     }
 
     private void insertAtFirst(Vertex node){
-        node.setNext(first); first.setPrev(node); node.setPrev(null); first = node;
+        node.setNext(first);
+        first.setPrev(node);
+        node.setPrev(null);
+        first = node;
     }
 
     public Vertex poll() {

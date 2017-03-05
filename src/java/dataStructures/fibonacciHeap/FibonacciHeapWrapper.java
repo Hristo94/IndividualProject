@@ -1,7 +1,7 @@
-package dataStructures.fibonacciHeap;
+package java.dataStructures.fibonacciHeap;
 
-import dataStructures.interfaces.Heap;
-import graph.Vertex;
+import java.dataStructures.interfaces.Heap;
+import java.graph.Vertex;
 
 /**
  * Created by hristo on 11/10/16.

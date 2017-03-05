@@ -1,8 +1,8 @@
-package dataStructures.vanEmdeBoas;
+package java.dataStructures.vanEmdeBoas;
 
-import dataStructures.DList;
-import dataStructures.interfaces.Heap;
-import graph.Vertex;
+import java.dataStructures.DList;
+import java.dataStructures.interfaces.Heap;
+import java.graph.Vertex;
 
 public class VEBTree implements Heap<Vertex>
 {
@@ -16,23 +16,10 @@ public class VEBTree implements Heap<Vertex>
     private int size = 0;
 
     private int maxDistance;
-    public static VEBTree createVEBTree(int maxDistance)
-    {
-        // calculates the universe size from the max distance by finding the nearest power of 2, bigger than the maxDistance
-        int universeSize = (int) Math.pow(2, 32 - Integer.numberOfLeadingZeros(maxDistance - 1));
-        if(isPowerOf2(universeSize))
-        {
-            return new VEBTree(maxDistance, universeSize);
-        }
-        else
-        {
-            System.out.println("ERROR: Must create a tree with size a power of 2!");
-            return null;
-        }
-    }
 
-    private VEBTree(int maxDistance, int universeSize)
+    public VEBTree(int maxDistance)
     {
+        int universeSize = (int) Math.pow(2, 32 - Integer.numberOfLeadingZeros(maxDistance));
         this.maxDistance = maxDistance;
 
         values = new DList[this.maxDistance + 1];
@@ -273,7 +260,7 @@ public class VEBTree implements Heap<Vertex>
             }
         }
     }
-    
+
 
     /*
      * Returns the index in the tree of the given value.
@@ -281,29 +268,5 @@ public class VEBTree implements Heap<Vertex>
     private int index(VEBNode node, int x, int y)
     {
         return (x * node.lowerSquareRoot + y);
-    }
-
-
-    /*
-     * Returns true if x is a power of 2, false otherwise.
-     */
-    private static boolean isPowerOf2(int x)
-    {
-        if(0 == x)
-        {
-            return false;
-        }
-
-        while(x % 2 == 0)
-        {
-            x = x / 2;
-        }
-
-        if(x > 1)
-        {
-            return false;
-        }
-
-        return true;
     }
 }

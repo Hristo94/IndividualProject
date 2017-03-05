@@ -1,7 +1,7 @@
-package dataStructures.binaryHeap;
+package java.dataStructures.binaryHeap;
 
-import dataStructures.interfaces.Heap;
-import graph.Vertex;
+import java.dataStructures.interfaces.Heap;
+import java.graph.Vertex;
 
 /**
  * Created by hristo on 12/10/16.

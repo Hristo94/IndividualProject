@@ -1,7 +1,7 @@
-package dataStructures.pairingHeap;
+package java.dataStructures.pairingHeap;
 
-import dataStructures.interfaces.Heap;
-import graph.Vertex;
+import java.dataStructures.interfaces.Heap;
+import java.graph.Vertex;
 
 /**
  * Created by hristo on 07/11/2016.

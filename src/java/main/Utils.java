@@ -1,11 +1,11 @@
-package main;
+package java.main;
 
-import dataStructures.binaryHeap.BinaryHeapWrapper;
-import dataStructures.fibonacciHeap.FibonacciHeapWrapper;
-import dataStructures.interfaces.Heap;
-import graph.AdjListNode;
-import graph.Graph;
-import graph.Vertex;
+import java.dataStructures.binaryHeap.BinaryHeapWrapper;
+import java.dataStructures.fibonacciHeap.FibonacciHeapWrapper;
+import java.dataStructures.interfaces.Heap;
+import java.graph.AdjListNode;
+import java.graph.Graph;
+import java.graph.Vertex;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -54,8 +54,8 @@ public class Utils {
     }
 
 
-    public static void generateRandomGraph(int numVertices, double probability, int maxDistance, String graphName) {
-        Graph graph = Graph.generateRandomGraph(numVertices, probability, maxDistance);
+    public static void generateRandomGraph(int numVertices, int numEdges, int maxDistance, String graphName) {
+        Graph graph = Graph.generateRandomGraph(numVertices, numEdges, maxDistance);
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(graphName), StandardCharsets.UTF_8))) {
             writer.write(graph.size() + "\n");
             for(int i = 1; i <= graph.size(); i++) {

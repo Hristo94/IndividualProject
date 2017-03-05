@@ -1,12 +1,12 @@
-package main;
+package java.main;
 
-import dataStructures.binaryHeap.BinaryHeapWrapper;
-import dataStructures.fibonacciHeap.FibonacciHeapWrapper;
-import dataStructures.radixHeap.RadixHeap;
-import dataStructures.radixHeap.TwoLevelRadixHeap;
-import dataStructures.radixHeap.TwoLevelRadixHeap2;
-import dataStructures.vanEmdeBoas.VEBTree;
-import graph.Graph;
+import java.dataStructures.binaryHeap.BinaryHeapWrapper;
+import java.dataStructures.fibonacciHeap.FibonacciHeapWrapper;
+import java.dataStructures.radixHeap.RadixHeap;
+import java.dataStructures.radixHeap.TwoLevelRadixHeap;
+import java.dataStructures.radixHeap.TwoLevelRadixHeap2;
+import java.dataStructures.vanEmdeBoas.VEBTree;
+import java.graph.Graph;
 import java.io.IOException;
 
 public class Main {
@@ -15,18 +15,19 @@ public class Main {
         from which we control the execution of the program.
      */
     public static void main(String[] args) throws IOException {
-        Graph graph = Utils.createGraphFrom("10mil-50mil-500,000.txt");
+//        Graph graph = Utils.createGraphFrom("parsed1.txt");
         //Utils.generateRandomGraph(10000000, 0.0000005, 500, "10mil-50mil-500.txt");
-        //BinaryHeapWrapper binaryHeapWrapper = new BinaryHeapWrapper(graph.size());
-        //FibonacciHeapWrapper fibonacciHeapWrapper = new FibonacciHeapWrapper(graph.size());
-         //RadixHeap radixHeap = new RadixHeap();
-        //TwoLevelRadixHeap twoLevelRadixHeap = new TwoLevelRadixHeap(32);
-TwoLevelRadixHeap2 twoLevelRadixHeap2 = new TwoLevelRadixHeap2((int)Math.pow(2,12));
+        Graph graph = Graph.generateRandomGraph(10000,100000000,1000000);
+       BinaryHeapWrapper binaryHeapWrapper = new BinaryHeapWrapper(graph.size());
+       // FibonacciHeapWrapper fibonacciHeapWrapper = new FibonacciHeapWrapper(graph.size());
+         //RadixHeap radixHeap = new RadixHeap(graph.getMaxDistance());
+//        TwoLevelRadixHeap twoLevelRadixHeap = new TwoLevelRadixHeap((int)Math.pow(2,14));
+        //TwoLevelRadixHeap2 twoLevelRadixHeap2 = new TwoLevelRadixHeap2(graph.getMaxDistance(),(int)Math.pow(2,10));
 
 
-//        VEBTree vebTree = VEBTree.createVEBTree(graph.getMaxDistance());
+      //  VEBTree vebTree = new VEBTree(graph.getMaxDistance());
         long start = System.currentTimeMillis();
-        graph.findShortestPath(5, twoLevelRadixHeap2);
+        graph.findShortestPath(5,binaryHeapWrapper);
         long end = System.currentTimeMillis();
         System.out.println(Utils.produceOutput(graph, 5 , 55, end - start));
 
