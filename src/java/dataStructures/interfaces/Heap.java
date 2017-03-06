@@ -1,4 +1,4 @@
-package java.dataStructures.interfaces;
+package dataStructures.interfaces;
 
 /**
  * Created by hristo on 11/10/16.

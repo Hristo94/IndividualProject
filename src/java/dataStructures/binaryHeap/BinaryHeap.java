@@ -1,4 +1,4 @@
-package java.dataStructures.binaryHeap;
+package dataStructures.binaryHeap;
 
 /**
  * Created by hristo on 12/10/16.

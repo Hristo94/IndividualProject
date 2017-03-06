@@ -1,4 +1,4 @@
-package java.dataStructures.pairingHeap;
+package dataStructures.pairingHeap;
 
 import java.util.EmptyStackException;
 

@@ -1,11 +1,11 @@
-package java.main;
+package main;
 
-import java.dataStructures.binaryHeap.BinaryHeapWrapper;
-import java.dataStructures.fibonacciHeap.FibonacciHeapWrapper;
-import java.dataStructures.interfaces.Heap;
-import java.graph.AdjListNode;
-import java.graph.Graph;
-import java.graph.Vertex;
+import dataStructures.binaryHeap.BinaryHeapWrapper;
+import dataStructures.fibonacciHeap.FibonacciHeapWrapper;
+import dataStructures.interfaces.Heap;
+import graph.AdjListNode;
+import graph.Graph;
+import graph.Vertex;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

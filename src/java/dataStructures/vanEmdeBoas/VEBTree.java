@@ -1,8 +1,8 @@
-package java.dataStructures.vanEmdeBoas;
+package dataStructures.vanEmdeBoas;
 
-import java.dataStructures.DList;
-import java.dataStructures.interfaces.Heap;
-import java.graph.Vertex;
+import dataStructures.DList;
+import dataStructures.interfaces.Heap;
+import graph.Vertex;
 
 public class VEBTree implements Heap<Vertex>
 {

@@ -1,4 +1,4 @@
-package java.graph;
+package graph;
 
 /**
  class to represent an entry in the adjacency list of a vertex

@@ -1,6 +1,6 @@
-package java.dataStructures;
+package dataStructures;
 
-import java.graph.Vertex;
+import graph.Vertex;
 
 public class DList {
 

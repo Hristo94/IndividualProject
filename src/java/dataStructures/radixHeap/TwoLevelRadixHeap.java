@@ -1,8 +1,8 @@
-package java.dataStructures.radixHeap;
+package dataStructures.radixHeap;
 
-import java.dataStructures.DList;
-import java.dataStructures.interfaces.Heap;
-import java.graph.Vertex;
+import dataStructures.DList;
+import dataStructures.interfaces.Heap;
+import graph.Vertex;
 
 import java.util.Collections;
 

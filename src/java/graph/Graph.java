@@ -1,6 +1,6 @@
-package java.graph;
+package graph;
 
-import java.dataStructures.interfaces.Heap;
+import dataStructures.interfaces.Heap;
 
 import java.util.*;
 
@@ -32,11 +32,11 @@ public class Graph {
         Graph graph = new Graph(numVertices);
         Random random = new Random();
         graph.setMaxDistance(maxDistance);
+
         for(int i = 1; i <= numVertices; i++) {
             for(int j = i + 1; j <= numVertices; j += 1 + (Math.log(1 - random.nextDouble()) / Math.log(1 - probability))) {
                 Vertex v = graph.getVertex(i);
                 Vertex w = graph.getVertex(j);
-
                 int distance = random.nextInt(maxDistance - 1) + 1;
 
                 // since the graph is undirected,

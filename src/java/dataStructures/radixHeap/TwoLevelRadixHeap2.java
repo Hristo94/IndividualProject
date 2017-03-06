@@ -1,9 +1,9 @@
-package java.dataStructures.radixHeap;
+package dataStructures.radixHeap;
 
 import com.googlecode.javaewah.datastructure.BitSet;
-import java.dataStructures.DList;
-import java.dataStructures.interfaces.Heap;
-import java.graph.Vertex;
+import dataStructures.DList;
+import dataStructures.interfaces.Heap;
+import graph.Vertex;
 
 public class TwoLevelRadixHeap2 implements Heap<Vertex> {
     private int MAX_BUCKET;
@@ -22,9 +22,7 @@ public class TwoLevelRadixHeap2 implements Heap<Vertex> {
     public TwoLevelRadixHeap2(int maxDistance, int K) {
         this.K = K; //
 
-        // normally we need B = logK(C + 1) + 1 buckets starting from 1 to B
-        // for convenience we create one additional bucket that will not be used
-        // since arrays start from index 0
+
         MAX_BUCKET = (int)Math.ceil((Math.log(maxDistance + 1) / Math.log(K)) + 2);
         buckets = new DList[MAX_BUCKET][K];
         upperBound = new int[MAX_BUCKET]; // array of upper bounds

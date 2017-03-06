@@ -1,4 +1,4 @@
-package java.dataStructures.vanEmdeBoas;
+package dataStructures.vanEmdeBoas;
 
 public class VEBNode
 {
