@@ -1,21 +1,19 @@
 package graph;
 
-import dataStructures.interfaces.Heap;
+import dataStructures.generic.Heap;
 
 import java.util.*;
 
-/**
- class to represent an undirected graph using adjacency lists
- */
+// Represents an undirected graph using adjacency lists
 public class Graph {
-    private int maxDistance = 0; // used for Van Emde Boas tree, that needs to know the max distance
-                            // between two vertices in advance
-
-    private Vertex[] vertices; // the (array of) vertices
+    private int maxDistance = 0; // used for Radix Heaps and VEB tree
+    private Vertex[] vertices; // the vertices are stored in an array, each vertex has a unique id
+                                // which determines its index position
 
     public Graph(int n) {
         vertices = new Vertex[n];
         for (int i = 0; i < n; i++) {
+            // the vertex ids start from 1 but are stored from position 0.
             vertices[i] = new Vertex(i + 1);
         }
     }
@@ -28,28 +26,46 @@ public class Graph {
         return maxDistance;
     }
 
+    // Generates a random graph for a number of vertices, probability for an edge to be a part of the graph
+    // and a maximum weight of each edge. The algorithm is adopted from the paper
+    // "Efficient generation of large random networks, V. Batagelj and B. Ulrik - 2005".
     public static Graph generateRandomGraph(int numVertices, double probability, int maxDistance) {
         Graph graph = new Graph(numVertices);
         Random random = new Random();
         graph.setMaxDistance(maxDistance);
 
-        for(int i = 1; i <= numVertices; i++) {
-            for(int j = i + 1; j <= numVertices; j += 1 + (Math.log(1 - random.nextDouble()) / Math.log(1 - probability))) {
-                Vertex v = graph.getVertex(i);
-                Vertex w = graph.getVertex(j);
-                int distance = random.nextInt(maxDistance - 1) + 1;
+        int v = 1;
+        int w = -1;
+        double r;
 
-                // since the graph is undirected,
-                // both vertices should add the other vertex to their adjacency list
-                v.addToAdjList(j, distance);
-                w.addToAdjList(i, distance);
+        while(v < numVertices) {
+            r = random.nextDouble();
+            w += 1 + (Math.log(1 - r)/ Math.log(1 - probability));
+            while(w >= v && v < numVertices) {
+                w = w - v;
+                v = v + 1;
+            }
+
+            if(v < numVertices) {
+                int distance = random.nextInt(maxDistance - 1) + 1;
+                graph.getVertex(v + 1).addToAdjList(w + 1,distance);
+                graph.getVertex(w + 1).addToAdjList(v + 1,distance);
             }
         }
         return graph;
     }
 
+    // generates a random graph by specifying number of vertices, number of edges and the maximum weight of an edge
+    // from the vertices and edges, the probability of an edge to be a part of the graph is calculated
+    // and the delegate method that performs the generation is invoked
     public static Graph generateRandomGraph(int numVertices, int numEdges, int maxDistance) {
-        double probability = (numEdges * 1.0) / ((long)numVertices * (long)numVertices);
+        long possibleEdges = ((long)numVertices * (long)(numVertices - 1)) ;
+        if(possibleEdges < numEdges) {
+            System.out.println("The number of edges is bigger than the number of possible edges");
+            return null;
+        }
+
+        double probability = (1.0 * numEdges / (possibleEdges))  ;
         return generateRandomGraph(numVertices, probability, maxDistance);
     }
 
@@ -61,6 +77,7 @@ public class Graph {
         return vertices[i - 1];
     }
 
+    // Performs the Dijkstra's algorithm for the single-source shortest path problem
     public void findShortestPath(int startVertex, Heap<Vertex> heap) {
         //initialization
         Vertex u = getVertex(startVertex);
@@ -72,7 +89,9 @@ public class Graph {
             Vertex v = heap.removeMin();
             v.setProcessed(true); // shortest path to 'v' is already known
             // perform decreaseKey for each vertex 'w' adjacent to 'v'
-            for(AdjListNode node: v.getAdjList()){
+
+            Queue<AdjListNode> adjList = v.getAdjList();
+            for(AdjListNode node: adjList){  // perform relaxation
                 Vertex w = getVertex(node.getVertexNumber());
                 if(!w.isProcessed()) {
                     int newDistance = v.getDistance() + node.getWeight();

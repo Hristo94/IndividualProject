@@ -1,11 +1,8 @@
 package dataStructures.fibonacciHeap;
 
-import dataStructures.interfaces.Heap;
+import dataStructures.generic.Heap;
 import graph.Vertex;
 
-/**
- * Created by hristo on 11/10/16.
- */
 public class FibonacciHeapWrapper implements Heap<Vertex> {
     FibonacciHeapNode<Vertex>[] fibonacciHeapNodes;
     FibonacciHeap<Vertex> fibonacciHeap;

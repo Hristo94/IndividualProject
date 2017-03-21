@@ -1,4 +1,4 @@
-package dataStructures;
+package dataStructures.generic;
 
 import graph.Vertex;
 
@@ -15,6 +15,7 @@ public class DList {
         return (size == 0);
     }
 
+    // simple addFront
     public void insert(Vertex v){
         if (first == null){
             first = v;
@@ -40,6 +41,7 @@ public class DList {
         return v;
     }
 
+    // handles the cases when the node is at the front, at the end or between nodes
     public void remove(Vertex node){
         if (size == 1){first =  null;}
         else if (node == first){
@@ -56,11 +58,12 @@ public class DList {
         size--;
     }
 
+    // scan the elements to find the minimum
     public Vertex findMin() {
         Vertex min = first;
         Vertex cursor = min;
         while(cursor != null) {
-            if(cursor.compareTo(min) < 0) {
+            if(cursor.getDistance() < min.getDistance()) {
                 min = cursor;
             }
             cursor = cursor.getNext();

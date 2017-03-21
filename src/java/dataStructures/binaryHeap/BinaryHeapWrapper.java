@@ -1,6 +1,6 @@
 package dataStructures.binaryHeap;
 
-import dataStructures.interfaces.Heap;
+import dataStructures.generic.Heap;
 import graph.Vertex;
 
 /**
@@ -11,6 +11,7 @@ public class BinaryHeapWrapper implements Heap<Vertex> {
     BinaryHeap<Vertex> binaryHeap;
     BinaryHeapNode<Vertex>[] binaryHeapNodes;
 
+    public int count = 0;
     public BinaryHeapWrapper(int n) {
         binaryHeap = new BinaryHeap<>(n);
         binaryHeapNodes = new BinaryHeapNode[n];
@@ -34,6 +35,7 @@ public class BinaryHeapWrapper implements Heap<Vertex> {
 
     @Override
     public void decreaseKey(Vertex vertex, int newDistance) {
+        count++;
         vertex.setDistance(newDistance);
         BinaryHeapNode<Vertex> binaryHeapNode = binaryHeapNodes[vertex.getIndex() - 1];
         binaryHeap.upHeap(binaryHeapNode);

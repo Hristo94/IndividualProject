@@ -3,9 +3,8 @@ package graph;
 import java.util.LinkedList;
 import java.util.Queue;
 
-/**
- class to represent a vertex in a graph
- */
+// This class represents a vertex that is used by the Dijkstra's algorithm
+// Each vertex contains an adjacency list and other attributes that are necessary for the algorithm
 public class Vertex implements Comparable<Vertex>{
 
     private Queue<AdjListNode> adjList;
@@ -25,10 +24,6 @@ public class Vertex implements Comparable<Vertex>{
 
 
     public Vertex(int n) {
-        /**
-         use concurrent data structure for the adjacency list
-         in order to process the input file with multiple threads
-         */
         adjList = new LinkedList<>();
         index = n;
         distance = Integer.MAX_VALUE;

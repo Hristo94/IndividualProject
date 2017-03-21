@@ -27,7 +27,7 @@ public class BinaryHeap<T extends Comparable<T>> {
         heap[last + 1] = binaryHeapNode;
         last++;
 
-        upHeap();
+        upHeap(); // restore heap property
         return binaryHeapNode;
     }
 
@@ -38,6 +38,7 @@ public class BinaryHeap<T extends Comparable<T>> {
     private void upHeap(int index) {
         int parentIndex = getParentIndex(index);
 
+        // swap a child with its parent until heap order is restored
         while(parentIndex != -1 && heap[parentIndex].compareTo(heap[index]) > 0) {
             swap(index, parentIndex);
             index = parentIndex;
@@ -55,7 +56,7 @@ public class BinaryHeap<T extends Comparable<T>> {
         heap[1] = heap[last];
         last --;
 
-        downHeap();
+        downHeap(); // restore heap property
         return min;
     }
 
@@ -64,6 +65,7 @@ public class BinaryHeap<T extends Comparable<T>> {
         int index = 1;
         int smaller = smallerChild(index);
 
+        // swap parent with its smaller child until heap order is restored
         while(smaller != -1 && heap[index].compareTo(heap[smaller]) > 0) {
             swap(index, smaller);
             index = smaller;
@@ -72,6 +74,9 @@ public class BinaryHeap<T extends Comparable<T>> {
     }
 
 
+    // performs a swap between two binary heap nodes within the array
+    // note that the binary heap node has to update its variable that remembers its position
+    // this allows locating the node within the array when decreaseKey is performed
     private void swap(int index, int parent) {
         BinaryHeapNode<T> temp = heap[index];
         heap[index] = heap[parent];

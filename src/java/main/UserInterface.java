@@ -1,6 +1,6 @@
 package main;
 
-import dataStructures.interfaces.Heap;
+import dataStructures.generic.Heap;
 import graph.Graph;
 
 import javax.swing.*;
@@ -8,9 +8,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
-/**
- * Created by hristo on 01/11/2016.
- */
+// Presents a simple GUI that allows a user to load a graph instance from file
+// and perform the Dijktra's algorithm. The layout is hardcoded and it is very simple.
 public class UserInterface {
     // Dijkstra Shortest path attributes
     private static String inputFileName;
@@ -42,6 +41,7 @@ public class UserInterface {
     private static JScrollPane outputTextAreaScrollPane;
 
 
+    // initialises all components and displays them in a JFrame
     public static void init() {
         initFrame();
         initPanel();
@@ -152,7 +152,7 @@ public class UserInterface {
             @Override
             protected void done() {
                 String heapType = (String) heapTypes.getSelectedItem();
-                Heap heap = Utils.createHeapFrom(heapType, graph.size());
+                Heap heap = Utils.createHeapFrom(heapType, graph);
                 long start = System.currentTimeMillis();
                 graph.findShortestPath(startVertex, heap);
                 long end = System.currentTimeMillis();

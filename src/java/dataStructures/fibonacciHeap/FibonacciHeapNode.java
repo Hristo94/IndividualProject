@@ -19,11 +19,11 @@ package dataStructures.fibonacciHeap;
 
 public class FibonacciHeapNode<T>
 {
-    private T data;
-    private FibonacciHeapNode<T> child;
-    private FibonacciHeapNode<T> left;
-    private FibonacciHeapNode<T> parent;
-    private FibonacciHeapNode<T> right;
+    private T data = null;
+    private FibonacciHeapNode<T> child = null;
+    private FibonacciHeapNode<T> left = null;
+    private FibonacciHeapNode<T> parent = null;
+    private FibonacciHeapNode<T> right = null;
     private boolean isMarked;
     private int key;
     private int degree;

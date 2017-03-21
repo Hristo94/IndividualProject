@@ -1,6 +1,7 @@
 package dataStructures.fibonacciHeap;
 public class FibonacciHeap<T>
 {
+    // used for the formula determining the upper bound of a degree array
     private static final double ONEOVERLOGPHI = 1.0 / Math.log((1.0 + Math.sqrt(5.0)) / 2.0);
     private FibonacciHeapNode<T> minNode;
     private int numNodes;
@@ -16,32 +17,11 @@ public class FibonacciHeap<T>
         return minNode == null;
     }
 
-    public void decreaseKey(FibonacciHeapNode<T> x, int newKey)
-    {
-        if (newKey > x.getKey()) {
-            throw new IllegalArgumentException(
-                "decreaseKey() got larger key value. Current key: " + x.getKey() + " new key: " + newKey);
-        }
-
-        x.setKey(newKey);
-
-        FibonacciHeapNode<T> y = x.getParent();
-
-        if ((y != null) && (x.getKey() < y.getKey())) {
-            cut(x, y);
-            cascadingCut(y);
-        }
-
-        if (x.getKey() < minNode.getKey()) {
-            minNode = x;
-        }
-    }
-
     public void insert(FibonacciHeapNode<T> node, int key)
     {
         node.setKey(key);
 
-        // concatenate node into min list
+        // add the node to the root list
         if (minNode != null) {
             node.setLeft(minNode);
             node.setRight(minNode.getRight());
@@ -60,14 +40,14 @@ public class FibonacciHeap<T>
 
     public FibonacciHeapNode<T> removeMin()
     {
-        FibonacciHeapNode<T> z = minNode;
+        FibonacciHeapNode<T> min = minNode; // save minNode in a variable to be returned
 
-        if (z != null) {
-            int numKids = z.getDegree();
-            FibonacciHeapNode<T> x = z.getChild();
+        if (min != null) {
+            int numKids = min.getDegree();
+            FibonacciHeapNode<T> x = min.getChild();
             FibonacciHeapNode<T> tempRight;
 
-            // for each child of z do...
+            // add each of min's children to the root list
             while (numKids > 0) {
                 tempRight = x.getRight();
 
@@ -87,14 +67,15 @@ public class FibonacciHeap<T>
                 numKids--;
             }
 
-            // remove z from root list of heap
-            z.getLeft().setRight(z.getRight());
-            z.getRight().setLeft(z.getLeft());
+            // remove min from root list of heap
+            min.getLeft().setRight(min.getRight());
+            min.getRight().setLeft(min.getLeft());
 
-            if (z == z.getRight()) {
+            // perform consolidate to reduce the number of trees in the heap
+            if (min == min.getRight()) {
                 minNode = null;
             } else {
-                minNode = z.getRight();
+                minNode = min.getRight();
                 consolidate();
             }
 
@@ -102,14 +83,37 @@ public class FibonacciHeap<T>
             numNodes--;
         }
 
-        return z;
+        return min;
+    }
+
+    public void decreaseKey(FibonacciHeapNode<T> x, int newKey)
+    {
+        // update the key
+        x.setKey(newKey);
+
+        FibonacciHeapNode<T> y = x.getParent();
+
+        // if the heap property is violated after the update
+        // cut x from its parent and add it to the root list
+        // this might involve structural changes in y as well
+        // since x might be the second child that y loses.
+        // thats why cascading-cut is performed
+        if ((y != null) && (x.getKey() < y.getKey())) {
+            cut(x, y);
+            cascadingCut(y);
+        }
+
+        // update min in the root list if necessary
+        if (x.getKey() < minNode.getKey()) {
+            minNode = x;
+        }
     }
 
     protected void cascadingCut(FibonacciHeapNode<T> y)
     {
         FibonacciHeapNode<T> z = y.getParent();
 
-        // if there's a parent...
+        // continue cutting the node from its parent, until an unmarked node is reached or a root
         if (z != null) {
             // if y is unmarked, set it marked
             if (!y.isMarked()) {
@@ -126,6 +130,7 @@ public class FibonacciHeap<T>
 
     protected void consolidate()
     {
+        // calculate the size of the degree array using the upper bound formula
         int arraySize = ((int) Math.floor(Math.log(numNodes) * ONEOVERLOGPHI)) + 1;
 
         FibonacciHeapNode<T>[] array = new FibonacciHeapNode[arraySize];
@@ -144,62 +149,58 @@ public class FibonacciHeap<T>
             }
         }
 
-        // For each node in root list do...
+        // For each node in root list
         while (numRoots > 0) {
-            // Access this node's degree..
             int d = x.getDegree();
             FibonacciHeapNode<T> next = x.getRight();
 
-            // ..and see if there's another of the same degree.
+            // find another node with the same degree
             for (;;) {
                 FibonacciHeapNode<T> y = array[d];
                 if (y == null) {
-                    // Nope.
+                    // stop if there is no such a node
                     break;
                 }
 
-                // There is, make one of the nodes a child of the other.
-                // Do this based on the key value.
+                // it is required that x is a root after the consolidate
+                // so swap x and y if x's key is bigger
                 if (x.getKey() > y.getKey()) {
                     FibonacciHeapNode<T> temp = y;
                     y = x;
                     x = temp;
                 }
 
-                // FibonacciHeapNode2<T> y disappears from root list.
+                // make y a child of x
                 link(y, x);
 
-                // We've handled this degree, go to next one.
+                // Find nodes with the same degree as the new degree of x
                 array[d] = null;
                 d++;
             }
 
-            // Save this node for later when we might encounter another
-            // of the same degree.
+            // Indicate that x is the unique element with that degree
             array[d] = x;
 
-            // Move forward through list.
+            // continue with next nodes in the root list
             x = next;
             numRoots--;
         }
 
-        // Set min to null (effectively losing the root list) and
-        // reconstruct the root list from the array entries in array[].
-        minNode = null;
 
+        // recreate the root list from the degree array
+        minNode = null;
         for (int i = 0; i < arraySize; i++) {
             FibonacciHeapNode<T> y = array[i];
+            // skip if there is no node with this degree
             if (y == null) {
                 continue;
             }
 
-            // We've got a live one, add it to root list.
+            // add to the root list
             if (minNode != null) {
-                // First remove node from root list.
                 y.getLeft().setRight(y.getRight());
                 y.getRight().setLeft(y.getLeft());
 
-                // Now add to root list, again.
                 y.setLeft(minNode);
                 y.setRight(minNode.getRight());
                 minNode.setRight(y);
@@ -217,7 +218,7 @@ public class FibonacciHeap<T>
 
     protected void cut(FibonacciHeapNode<T> x, FibonacciHeapNode<T> y)
     {
-        // remove x from childlist of y and decrement degree[y]
+        // remove x from the children of y
         x.getLeft().setRight(x.getRight());
         x.getRight().setLeft(x.getLeft());
         y.setDegree(y.getDegree() - 1);
@@ -231,22 +232,20 @@ public class FibonacciHeap<T>
             y.setChild(null);
         }
 
-        // add x to root list of heap
+        // add x to root list
         x.setLeft(minNode);
         x.setRight(minNode.getRight());
         minNode.setRight(x);
         x.getRight().setLeft(x);
 
-        // set parent[x] to nil
+        // reset the x's variables
         x.setParent(null);
-
-        // set isMarked[x] to false
         x.setMarked(false);
     }
 
     protected void link(FibonacciHeapNode<T> y, FibonacciHeapNode<T> x)
     {
-        // remove y from root list of heap
+        // remove y from root list
         y.getLeft().setRight(y.getRight());
         y.getRight().setLeft(y.getLeft());
 
@@ -264,10 +263,9 @@ public class FibonacciHeap<T>
             y.getRight().setLeft(y);
         }
 
-        // increase degree[x]
+        // increase the degree of x
         x.setDegree(x.getDegree() + 1);
-
-        // set isMarked[y] false
+        // y becomes unmarked
         y.setMarked(false);
     }
 }

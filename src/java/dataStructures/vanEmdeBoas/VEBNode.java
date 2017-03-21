@@ -12,10 +12,13 @@ public class VEBNode
     public int maxCount = 0;
 
     public int lowerSquareRoot;
+
+    // the contstructor creates VEB nodes recursively until the whole tree is constructed
     public VEBNode(int universeSize)
     {
         this.universeSize = universeSize;
-        this.lowerSquareRoot = (int) Math.pow(2, Math.floor((Math.log10(universeSize) / Math.log10(2)) / 2.0));
+        // precompute the lowerSquareRoot since it is needed during the veb tree operations
+        this.lowerSquareRoot = (int) Math.pow(2, Math.floor((Math.log(universeSize) / Math.log(2)) / 2.0));
         min = VEBTree.NULL;
         max = VEBTree.NULL;
 
@@ -47,11 +50,9 @@ public class VEBNode
     public boolean isEmpty() {
         return min == VEBTree.NULL;
     }
-    /*
-     * Returns the value of the most significant bits of x.
-     */
+
     private int higherSquareRoot()
     {
-        return (int)Math.pow(2, Math.ceil((Math.log10(universeSize) / Math.log10(2)) / 2));
+        return (int)Math.pow(2, Math.ceil((Math.log(universeSize) / Math.log(2)) / 2));
     }
 }
